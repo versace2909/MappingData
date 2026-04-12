@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#0732a3",
+                    "secondary-container": "#d5e3fc",
+                    "surface-bright": "#f7f9fb",
+                    "on-error-container": "#752121",
+                    "primary-container": "#dde1ff",
+                    "on-secondary-fixed-variant": "#4e5c71",
+                    "on-secondary-fixed": "#324053",
+                    "on-surface-variant": "#566166",
+                    "outline": "#717c82",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#cfdce3",
+                    "tertiary-fixed": "#dfd5f7",
+                    "on-primary-fixed-variant": "#3352c0",
+                    "on-tertiary-fixed-variant": "#59526e",
+                    "on-primary-container": "#2747b6",
+                    "surface-container": "#e8eff3",
+                    "surface-tint": "#3755c3",
+                    "surface-container-low": "#f0f4f7",
+                    "primary": "#3755c3",
+                    "primary-dim": "#2848b7",
+                    "background": "#f7f9fb",
+                    "inverse-primary": "#6d89fa",
+                    "secondary": "#526074",
+                    "outline-variant": "#a9b4b9",
+                    "tertiary-fixed-dim": "#d0c7e8",
+                    "tertiary-dim": "#564f6b",
+                    "on-tertiary": "#fdf7ff",
+                    "surface-container-highest": "#d9e4ea",
+                    "surface-variant": "#d9e4ea",
+                    "inverse-on-surface": "#9a9d9f",
+                    "on-tertiary-fixed": "#3c3650",
+                    "tertiary-container": "#dfd5f7",
+                    "error-container": "#fe8983",
+                    "primary-fixed-dim": "#cad2ff",
+                    "on-secondary": "#f8f8ff",
+                    "on-background": "#2a3439",
+                    "secondary-fixed": "#d5e3fc",
+                    "tertiary": "#625b77",
+                    "on-primary": "#f8f7ff",
+                    "on-secondary-container": "#455367",
+                    "on-tertiary-container": "#4f4964",
+                    "error": "#9f403d",
+                    "surface-container-high": "#e1e9ee",
+                    "primary-fixed": "#dde1ff",
+                    "on-surface": "#2a3439",
+                    "on-error": "#fff7f6",
+                    "inverse-surface": "#0b0f10",
+                    "surface": "#f7f9fb",
+                    "error-dim": "#4e0309",
+                    "secondary-fixed-dim": "#c7d5ed",
+                    "secondary-dim": "#465468"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- Background Layer (Blurred Content) -->
+<div class="fixed inset-0 blur-[2px] pointer-events-none select-none">
+<!-- TopAppBar -->
+<header class="bg-slate-50 fixed top-0 w-full z-50 flex justify-between items-center h-16 px-6 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-600 font-headline">MapEngine</span>
+<nav class="hidden md:flex gap-6 font-manrope text-sm font-medium">
+<a class="text-slate-500" href="#">Home</a>
+<a class="text-slate-500" href="#">Data Sources</a>
+<a class="text-blue-600 border-b-2 border-blue-600 pb-1" href="#">Mappings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-200/50 rounded-full transition-colors text-slate-500">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-200/50 rounded-full transition-colors text-slate-500">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full ml-2" data-alt="close-up portrait of a professional woman with a friendly smile in a modern office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1bqOalYJPFEwyCJ4uC_DQc-HNVhs7SUxY2Zjb5MmgtZJQVLht4f9m_Wijgx_2oQLNFPUQ6L_nCHQu_WGqvSM56TkDUk5pLE35BoL9GDlX4m1B8-EacXfQnrngSZsz1ur-KDoF0a-RTnOz2muwsdlHfFUa1nwC0Rw72vovwXDC0lXs6l5KYfF20zURL3SXiF_SUGhIWGnC42bjfOJpbIFt_fjSlVrx76oGvXYgTfKWoknZkChaF15CtWCFLhQFhQx9l-b9r5bW95dJ"/>
+</div>
+</header>
+<!-- SideNav -->
+<aside class="fixed left-0 top-16 h-full w-64 bg-slate-100 flex flex-col p-4 gap-2">
+<div class="px-2 mb-4">
+<h2 class="font-headline font-semibold text-on-surface">Workspace</h2>
+<p class="text-xs text-on-surface-variant">Data Mapping v1.0</p>
+</div>
+<button class="bg-blue-600 text-white py-2 px-4 rounded-lg font-medium mb-4 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">upload</span> Upload
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 rounded-lg text-sm" href="#">
+<span class="material-symbols-outlined">upload_file</span> Recent Uploads
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 bg-white text-blue-600 font-semibold rounded-lg text-sm shadow-sm" href="#">
+<span class="material-symbols-outlined">account_tree</span> Active Projects
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 rounded-lg text-sm" href="#">
+<span class="material-symbols-outlined">archive</span> Archived
+                </a>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-200">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 rounded-lg text-sm" href="#">
+<span class="material-symbols-outlined">help</span> Help
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 rounded-lg text-sm" href="#">
+<span class="material-symbols-outlined">chat_bubble</span> Feedback
+                </a>
+</div>
+</aside>
+<!-- Main Content Area (Blurred) -->
+<main class="ml-64 pt-24 px-8">
+<div class="max-w-6xl mx-auto">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="text-3xl font-headline font-bold text-on-background tracking-tight">Mapping Results</h1>
+<p class="text-on-surface-variant mt-1">Reviewing source to target transformations for ERP Integration.</p>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-6">
+<!-- Stat Cards -->
+<div class="col-span-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<p class="text-xs font-label text-on-surface-variant uppercase tracking-wider mb-2">Total Mappings</p>
+<p class="text-4xl font-headline font-bold text-on-background">1,284</p>
+</div>
+<div class="col-span-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<p class="text-xs font-label text-on-surface-variant uppercase tracking-wider mb-2">Confidence Score</p>
+<p class="text-4xl font-headline font-bold text-primary">94.2%</p>
+</div>
+<div class="col-span-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<p class="text-xs font-label text-on-surface-variant uppercase tracking-wider mb-2">Pending Review</p>
+<p class="text-4xl font-headline font-bold text-on-background">12</p>
+</div>
+<!-- Placeholder Table Content -->
+<div class="col-span-12 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden mt-6">
+<div class="p-6 border-b border-surface-container">
+<h3 class="text-lg font-headline font-semibold">Active Mapping Schema</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-wider">
+<th class="px-6 py-4 font-semibold">Source Field</th>
+<th class="px-6 py-4 font-semibold">Transformation</th>
+<th class="px-6 py-4 font-semibold">Target Field</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-surface-container-low">
+<td class="px-6 py-4 text-sm font-medium">cust_id_primary</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant italic">String to Integer</td>
+<td class="px-6 py-4 text-sm font-medium">CustomerID</td>
+<td class="px-6 py-4"><span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full font-semibold">Verified</span></td>
+</tr>
+<tr class="bg-surface-container-low">
+<td class="px-6 py-4 text-sm font-medium">first_name_val</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant italic">Trim Whitespace</td>
+<td class="px-6 py-4 text-sm font-medium">FirstName</td>
+<td class="px-6 py-4"><span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full font-semibold">Verified</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-on-surface/40 backdrop-blur-sm">
+<!-- Centered Modal Dialog -->
+<div class="bg-surface-container-lowest w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[921px]">
+<!-- Modal Header -->
+<div class="p-6 border-b border-surface-container-highest flex justify-between items-center bg-white">
+<h2 class="text-xl font-headline font-bold text-on-background">Edit Mapping</h2>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors text-outline">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Content -->
+<div class="p-8 flex-1 overflow-y-auto">
+<!-- Search Section -->
+<div class="mb-8">
+<label class="block text-xs font-label text-on-surface-variant uppercase tracking-widest mb-2 font-bold" for="source_desc">Source Description</label>
+<div class="flex gap-3">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
+<input class="w-full bg-surface-container-highest border-none rounded-lg py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/50 placeholder:text-outline" id="source_desc" placeholder="Search fields or descriptions..." type="text"/>
+</div>
+<button class="bg-primary hover:bg-primary-dim text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
+                            Search
+                        </button>
+</div>
+</div>
+<!-- Grid Table Section -->
+<div>
+<h3 class="text-sm font-headline font-bold text-on-background mb-4">Target Data Preview</h3>
+<div class="rounded-xl overflow-hidden border border-surface-container">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant text-[10px] uppercase tracking-widest">
+<th class="px-4 py-3 font-bold border-b border-surface-container">ID</th>
+<th class="px-4 py-3 font-bold border-b border-surface-container">Target Field Name</th>
+<th class="px-4 py-3 font-bold border-b border-surface-container">Description</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="group hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="px-4 py-4 font-mono text-xs text-primary">TGT-001</td>
+<td class="px-4 py-4 font-semibold">UserIdentification</td>
+<td class="px-4 py-4 text-on-surface-variant">Primary unique key for global users.</td>
+</tr>
+<tr class="bg-surface-container-lowest group hover:bg-surface-container-low transition-colors cursor-pointer border-t border-surface-container-low">
+<td class="px-4 py-4 font-mono text-xs text-primary">TGT-042</td>
+<td class="px-4 py-4 font-semibold">GivenName</td>
+<td class="px-4 py-4 text-on-surface-variant">Legal first name as per government records.</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors cursor-pointer border-t border-surface-container-low">
+<td class="px-4 py-4 font-mono text-xs text-primary">TGT-109</td>
+<td class="px-4 py-4 font-semibold">EmailAddress</td>
+<td class="px-4 py-4 text-on-surface-variant">Validated corporate email contact.</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors cursor-pointer border-t border-surface-container-low">
+<td class="px-4 py-4 font-mono text-xs text-primary">TGT-215</td>
+<td class="px-4 py-4 font-semibold">TimestampModified</td>
+<td class="px-4 py-4 text-on-surface-variant">UTC format of the last entry update.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="p-6 border-t border-surface-container-highest bg-surface-container-low flex justify-end items-center gap-3">
+<button class="px-6 py-2.5 text-sm font-bold text-on-surface-variant hover:text-on-background transition-colors">
+                    Cancel
+                </button>
+<button class="bg-primary hover:bg-primary-dim text-white px-8 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20">
+                    Save Changes
+                </button>
+</div>
+</div>
+</div>
+</body></html>

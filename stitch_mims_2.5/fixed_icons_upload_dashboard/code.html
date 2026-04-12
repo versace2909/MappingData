@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MapEngine - Upload Dashboard</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#a9b4b9",
+                        "on-secondary-container": "#455367",
+                        "on-primary": "#f8f7ff",
+                        "tertiary-container": "#dfd5f7",
+                        "secondary-container": "#d5e3fc",
+                        "error-dim": "#4e0309",
+                        "inverse-surface": "#0b0f10",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-dim": "#465468",
+                        "on-error": "#fff7f6",
+                        "on-background": "#2a3439",
+                        "secondary": "#526074",
+                        "on-tertiary-fixed-variant": "#59526e",
+                        "primary-fixed-dim": "#cad2ff",
+                        "on-secondary": "#f8f8ff",
+                        "tertiary-dim": "#564f6b",
+                        "tertiary-fixed": "#dfd5f7",
+                        "error-container": "#fe8983",
+                        "inverse-primary": "#6d89fa",
+                        "on-primary-fixed": "#0732a3",
+                        "surface-container-low": "#f0f4f7",
+                        "surface-container-highest": "#d9e4ea",
+                        "surface": "#f7f9fb",
+                        "primary-dim": "#2848b7",
+                        "on-tertiary-container": "#4f4964",
+                        "secondary-fixed-dim": "#c7d5ed",
+                        "outline": "#717c82",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-tertiary": "#fdf7ff",
+                        "on-primary-container": "#2747b6",
+                        "on-error-container": "#752121",
+                        "primary-fixed": "#dde1ff",
+                        "surface-variant": "#d9e4ea",
+                        "background": "#f7f9fb",
+                        "surface-tint": "#3755c3",
+                        "on-surface-variant": "#566166",
+                        "error": "#9f403d",
+                        "on-secondary-fixed": "#324053",
+                        "primary": "#3755c3",
+                        "tertiary-fixed-dim": "#d0c7e8",
+                        "tertiary": "#625b77",
+                        "primary-container": "#dde1ff",
+                        "surface-container-high": "#e1e9ee",
+                        "on-tertiary-fixed": "#3c3650",
+                        "surface-dim": "#cfdce3",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#4e5c71",
+                        "on-primary-fixed-variant": "#3352c0",
+                        "inverse-on-surface": "#9a9d9f",
+                        "on-surface": "#2a3439",
+                        "surface-container": "#e8eff3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #3755c3 0%, #2848b7 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50 flex justify-between items-center h-16 px-6">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-600 font-headline">MapEngine</span>
+<nav class="hidden md:flex gap-6 items-center h-full">
+<a class="font-manrope text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" href="#">Home</a>
+<a class="font-manrope text-sm font-medium text-blue-600 border-b-2 border-blue-600 pb-1" href="#">Data Sources</a>
+<a class="font-manrope text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" href="#">Mappings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User profile" data-alt="close-up portrait of a professional woman with a friendly expression in a modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQa9T1_VPmzzDrb9pqBYJGE3tgnLwEqhEQGEMaw78zDNUu34K3FPyadk7Us_2jft8o6fLt1hCLPbRrptMrYkr7gQgW_T_-tzhWG96VvFFB1aPMaROjrvz-786gmNQY6RZVr1w0kdQFrZ9pWfqQ9LGureVPSN76eV4bN8fPqb8YTduTo0wVM-57QZP85_SRTOYKsRG4avAqaR61zdnx9gdTN34uUlVI96vsmFG0c6736dWQ5p9q2SRhShBX4p6YhNJnKOdq0bwVRjur"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-full w-64 bg-slate-100 flex flex-col p-4 gap-2">
+<div class="mb-6 px-2">
+<h2 class="font-inter text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Workspace</h2>
+<p class="font-inter text-[10px] text-slate-500">Data Mapping v1.0</p>
+</div>
+<button class="primary-gradient text-on-primary font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 mb-4 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">upload_file</span>
+            Upload
+        </button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white text-blue-600 font-semibold rounded-lg font-inter text-sm active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+                Recent Uploads
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200 rounded-lg font-inter text-sm transition-all" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+                Active Projects
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200 rounded-lg font-inter text-sm transition-all" href="#">
+<span class="material-symbols-outlined">archive</span>
+                Archived
+            </a>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-200/50 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 rounded-lg font-inter text-sm transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+                Help
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 rounded-lg font-inter text-sm transition-all" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+                Feedback
+            </a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 mt-16 p-8 min-h-screen bg-surface">
+<div class="max-w-6xl mx-auto">
+<!-- Header Section -->
+<div class="mb-10">
+<h1 class="text-3xl font-headline font-bold text-on-surface mb-2">Recent Uploads</h1>
+<p class="text-on-surface-variant max-w-2xl">Upload your datasets to begin mapping entities. We support .xlsx, .csv, and JSON formats with automatic schema detection.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Large Drag & Drop Area -->
+<div class="col-span-12">
+<div class="bg-surface-container-low rounded-xl p-1 border-2 border-dashed border-outline-variant/40 hover:border-primary transition-all group h-full flex flex-col items-center justify-center min-h-[400px]">
+<div class="text-center p-12">
+<div class="w-20 h-20 bg-primary-container rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">upload_file</span>
+</div>
+<h3 class="text-xl font-headline font-semibold mb-2">Upload Excel File</h3>
+<p class="text-on-surface-variant mb-8">Drag and drop your spreadsheet here, or <span class="text-primary font-semibold cursor-pointer">browse your files</span></p>
+<div class="flex flex-wrap justify-center gap-4">
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest rounded-full text-xs font-label text-on-surface-variant">
+<span class="material-symbols-outlined">description</span>
+                                    MAX 50MB
+                                </div>
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest rounded-full text-xs font-label text-on-surface-variant">
+<span class="material-symbols-outlined">check_circle</span>
+                                    SCHEMA SYNC
+                                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Table Section -->
+<div class="col-span-12">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="px-6 py-4 flex items-center justify-between border-b border-surface-container-low">
+<h3 class="font-headline font-semibold">Recent Data Sources</h3>
+<div class="flex items-center gap-2">
+<div class="relative">
+<span class="material-symbols-outlined">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-surface-container-low rounded-lg text-sm border-none focus:ring-1 focus:ring-primary/50 w-64" placeholder="Search sources..." type="text"/>
+</div>
+<button class="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-6 py-4 text-xs font-label text-on-surface-variant uppercase tracking-wider">Source Name</th>
+<th class="px-6 py-4 text-xs font-label text-on-surface-variant uppercase tracking-wider">Upload Date</th>
+<th class="px-6 py-4 text-xs font-label text-on-surface-variant uppercase tracking-wider">Size</th>
+<th class="px-6 py-4 text-xs font-label text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">table_view</span>
+</div>
+<span class="font-medium text-sm">Q3_Sales_Forecast.xlsx</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">2.4 MB</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">table_view</span>
+</div>
+<span class="font-medium text-sm">Customer_Retention_v2.csv</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 22, 2023</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">14.8 MB</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">table_view</span>
+</div>
+<span class="font-medium text-sm">Historical_Territory_Data.xlsx</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 19, 2023</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">856 KB</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">table_view</span>
+</div>
+<span class="font-medium text-sm">Product_Inventory_Master.json</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 15, 2023</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">4.1 MB</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-surface-container-low/20 flex justify-between items-center">
+<span class="text-xs text-on-surface-variant font-label">SHOWING 4 OF 12 SOURCES</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-surface-container-lowest border border-outline-variant/20 rounded text-xs font-semibold hover:bg-surface-container-low transition-colors">Previous</button>
+<button class="px-3 py-1 bg-surface-container-lowest border border-outline-variant/20 rounded text-xs font-semibold hover:bg-surface-container-low transition-colors">Next</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

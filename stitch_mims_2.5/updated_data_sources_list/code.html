@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Data Sources - MapFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#dfd5f7",
+                    "surface-variant": "#d9e4ea",
+                    "on-surface-variant": "#566166",
+                    "on-tertiary-fixed": "#3c3650",
+                    "outline-variant": "#a9b4b9",
+                    "secondary-dim": "#465468",
+                    "surface-tint": "#3755c3",
+                    "on-secondary-fixed-variant": "#4e5c71",
+                    "on-primary": "#f8f7ff",
+                    "inverse-surface": "#0b0f10",
+                    "secondary-container": "#d5e3fc",
+                    "surface": "#f7f9fb",
+                    "tertiary-fixed": "#dfd5f7",
+                    "primary-fixed-dim": "#cad2ff",
+                    "on-secondary-container": "#455367",
+                    "on-background": "#2a3439",
+                    "primary-dim": "#2848b7",
+                    "on-primary-fixed-variant": "#3352c0",
+                    "secondary": "#526074",
+                    "error": "#9f403d",
+                    "secondary-fixed-dim": "#c7d5ed",
+                    "inverse-primary": "#6d89fa",
+                    "tertiary-fixed-dim": "#d0c7e8",
+                    "on-tertiary-fixed-variant": "#59526e",
+                    "tertiary": "#625b77",
+                    "on-error": "#fff7f6",
+                    "on-surface": "#2a3439",
+                    "on-secondary": "#f8f8ff",
+                    "surface-bright": "#f7f9fb",
+                    "on-error-container": "#752121",
+                    "surface-container-highest": "#d9e4ea",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#dde1ff",
+                    "tertiary-dim": "#564f6b",
+                    "primary-fixed": "#dde1ff",
+                    "background": "#f7f9fb",
+                    "error-dim": "#4e0309",
+                    "surface-container": "#e8eff3",
+                    "on-tertiary-container": "#4f4964",
+                    "secondary-fixed": "#d5e3fc",
+                    "inverse-on-surface": "#9a9d9f",
+                    "error-container": "#fe8983",
+                    "on-primary-fixed": "#0732a3",
+                    "primary": "#3755c3",
+                    "on-secondary-fixed": "#324053",
+                    "on-primary-container": "#2747b6",
+                    "surface-container-low": "#f0f4f7",
+                    "on-tertiary": "#fdf7ff",
+                    "surface-dim": "#cfdce3",
+                    "surface-container-high": "#e1e9ee",
+                    "outline": "#717c82"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="w-full top-0 sticky bg-[#f7f9fb] dark:bg-slate-900 z-50">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-full bg-[#f0f4f7] dark:bg-slate-800">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#2a3439] dark:text-slate-100">MapFlow</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#566166] dark:text-slate-400 hover:text-[#2563EB] transition-colors duration-200 font-body body-md" href="#">Home</a>
+<a class="text-[#2563EB] dark:text-blue-400 font-semibold border-b-2 border-[#2563EB] pb-1 font-body body-md" href="#">Data Sources</a>
+<a class="text-[#566166] dark:text-slate-400 hover:text-[#2563EB] transition-colors duration-200 font-body body-md" href="#">Mappings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center bg-surface-container-highest rounded-lg px-3 py-1.5 w-64">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full py-0 placeholder-on-surface-variant" placeholder="Search resources..." type="text"/>
+</div>
+<button class="text-[#566166] hover:text-[#2563EB] transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-[#566166] hover:text-[#2563EB] transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary overflow-hidden">
+<img alt="User portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBG6ISOLtgY4JN8TC3_h_XBJTHmTuT5KIc90DCOM5JBiUzFNUDcSrmV15YICZcdUkejvznFLK-JbW4C-WvWfj-S4S-2cHTJgeIYGBa73K2kES_lw_niA78usNetpsy_-u-KX7mOuwhzgIv4R9dUr_n3CFlk71M7mG7dQaPxOgSviXfBu99Z4wVfKIeHW27ERwmnLd548cKeexYF3aMO7gT4UebSfPKVSibWrK4YiOeIVAHhuvetpZbl9Wof9UjU6sXlhvPx4gRUuduN"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 left-0 sticky flex flex-col p-4 border-r border-[#a9b4b9]/15 bg-[#e8eff3] dark:bg-slate-800/50">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="database">database</span>
+</div>
+<div>
+<h2 class="text-lg font-semibold text-[#2a3439] dark:text-slate-100 font-headline">Project Workspace</h2>
+<p class="text-[10px] uppercase tracking-wider font-semibold text-on-surface-variant font-label">Enterprise Data</p>
+</div>
+</div>
+<button class="mb-8 w-full bg-primary text-on-primary py-2.5 rounded-lg flex items-center justify-center gap-2 font-medium shadow-sm hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+<span>New Mapping</span>
+</button>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-[#566166] dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-700/50 rounded-lg transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="history">history</span>
+<span class="font-body body-md">Recent Uploads</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#2563EB] dark:text-blue-400 font-bold bg-[#dde1ff] dark:bg-blue-900/30 rounded-lg translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="folder_open">folder_open</span>
+<span class="font-body body-md">Active Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#566166] dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-700/50 rounded-lg transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="archive">archive</span>
+<span class="font-body body-md">Archived</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-outline-variant/15 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-[#566166] dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-700/50 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+<span class="font-body body-md">Help</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#566166] dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-700/50 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+<span class="font-body body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 min-h-screen p-8 bg-surface">
+<!-- Header Section -->
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h1 class="text-[1.75rem] font-semibold text-on-surface headline-md mb-2">Data Sources</h1>
+<p class="text-on-surface-variant body-md max-w-2xl">Manage and connect your enterprise data streams. Ensure index integrity and monitor update synchronization across all active project pipelines.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-lg body-md font-medium hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="filter_list">filter_list</span>
+                        Filter
+                    </button>
+</div>
+</div>
+<!-- Stats/Overview Tonal Cards (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="bg-surface-container-low p-6 rounded-xl border-none">
+<p class="text-on-surface-variant label-sm mb-2">TOTAL SOURCES</p>
+<p class="text-3xl font-bold text-on-surface headline-md">124</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border-none">
+<p class="text-on-surface-variant label-sm mb-2">ACTIVE UPTIME</p>
+<p class="text-3xl font-bold text-primary headline-md">99.9%</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border-none">
+<p class="text-on-surface-variant label-sm mb-2">SYNC ERRORS</p>
+<p class="text-3xl font-bold text-error headline-md">2</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border-none">
+<p class="text-on-surface-variant label-sm mb-2">DATA THROUGHPUT</p>
+<p class="text-3xl font-bold text-on-surface headline-md">1.2 TB</p>
+</div>
+</div>
+<!-- Create Mapping Call-to-Action -->
+<div class="mb-8 bg-primary-container/20 border border-primary/10 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="alt_route">alt_route</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface headline-sm">Ready to integrate?</h3>
+<p class="text-on-surface-variant body-md">Start a new mapping flow between your active data sources to synchronize workflows.</p>
+</div>
+</div>
+<button class="px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold shadow-sm hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="add_link">add_link</span>
+                    Create New Mapping
+                </button>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_-15px_rgba(42,52,57,0.06)]">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 label-sm text-on-surface-variant font-semibold w-24">INDEX</th>
+<th class="px-6 py-4 label-sm text-on-surface-variant font-semibold">DATA SOURCE NAME</th>
+<th class="px-6 py-4 label-sm text-on-surface-variant font-semibold">LAST UPDATED DATE</th>
+</tr>
+</thead>
+<tbody class="divide-y-0">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-3 font-mono text-xs text-on-surface-variant">#DS-1024</td>
+<td class="px-6 py-3 font-medium text-on-surface body-md">Global Logistics Real-time API</td>
+<td class="px-6 py-3 text-on-surface-variant body-md">Oct 24, 2023 · 14:32 PM</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-3 font-mono text-xs text-on-surface-variant">#DS-1025</td>
+<td class="px-6 py-3 font-medium text-on-surface body-md">Marketing Campaign Attribution SQL</td>
+<td class="px-6 py-3 text-on-surface-variant body-md">Oct 24, 2023 · 12:15 PM</td>
+</tr>
+<!-- Row 3 -->
+<tr class="bg-primary-container/20 hover:bg-primary-container/30 transition-colors">
+<td class="px-6 py-3 font-mono text-xs text-on-primary-fixed font-bold">#DS-1026</td>
+<td class="px-6 py-3 font-bold text-on-primary-fixed body-md">Cloud Infrastructure Billing Logs</td>
+<td class="px-6 py-3 text-on-primary-fixed body-md">Oct 24, 2023 · 09:45 AM</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-3 font-mono text-xs text-on-surface-variant">#DS-1027</td>
+<td class="px-6 py-3 font-medium text-on-surface body-md">User Behavioral Analytics (Web)</td>
+<td class="px-6 py-3 text-on-surface-variant body-md">Oct 23, 2023 · 23:59 PM</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-3 font-mono text-xs text-on-surface-variant">#DS-1028</td>
+<td class="px-6 py-3 font-medium text-on-surface body-md">CRM Lead Management Integration</td>
+<td class="px-6 py-3 text-on-surface-variant body-md">Oct 23, 2023 · 18:20 PM</td>
+</tr>
+<!-- Row 6 -->
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-3 font-mono text-xs text-on-surface-variant">#DS-1029</td>
+<td class="px-6 py-3 font-medium text-on-surface body-md">Supply Chain IoT Sensor Network</td>
+<td class="px-6 py-3 text-on-surface-variant body-md">Oct 23, 2023 · 14:10 PM</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-3 font-mono text-xs text-on-surface-variant">#DS-1030</td>
+<td class="px-6 py-3 font-medium text-on-surface body-md">Customer Support ZenDesk Feed</td>
+<td class="px-6 py-3 text-on-surface-variant body-md">Oct 22, 2023 · 11:05 AM</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Control -->
+<div class="px-6 py-4 bg-surface-container-low flex justify-between items-center border-t border-outline-variant/10">
+<p class="text-sm text-on-surface-variant body-md">Showing <span class="font-bold text-on-surface">1-7</span> of 124 sources</p>
+<div class="flex items-center gap-1">
+<button class="p-2 text-on-surface-variant hover:bg-white/60 rounded-lg transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center bg-primary text-on-primary rounded-lg text-sm font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-white/60 rounded-lg text-sm">2</button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-white/60 rounded-lg text-sm">3</button>
+<span class="px-1 text-on-surface-variant">...</span>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-white/60 rounded-lg text-sm">18</button>
+<button class="p-2 text-on-surface-variant hover:bg-white/60 rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

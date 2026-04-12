@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet add:*)",
+      "Bash(dotnet build:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npm run:*)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln add:*)",
+      "Bash(rm /Users/dungviet/Project/HBLAB/MIMS2.5/backend/MIMS.Core/Class1.cs /Users/dungviet/Project/HBLAB/MIMS2.5/backend/MIMS.Application/Class1.cs /Users/dungviet/Project/HBLAB/MIMS2.5/backend/MIMS.Infrastructure/Class1.cs)",
+      "Bash(mkdir -p /Users/dungviet/Project/HBLAB/MIMS2.5/backend/MIMS.Core/Entities/Common)",
+      "Bash(mkdir -p /Users/dungviet/Project/HBLAB/MIMS2.5/backend/MIMS.Application/Common/Interfaces)",
+      "Bash(mkdir -p /Users/dungviet/Project/HBLAB/MIMS2.5/backend/MIMS.Infrastructure/Persistence)",
+      "Bash(dotnet package:*)",
+      "Bash(openspec status:*)",
+      "Bash(openspec instructions:*)",
+      "Bash(dotnet ef migrations:*)",
+      "Bash(dotnet run:*)",
+      "Bash(echo \"Backend PID: $!\")",
+      "Bash(echo \"Frontend PID: $!\")",
+      "Bash(curl:*)",
+      "Bash(python3 -m json.tool)",
+      "Bash(pkill -f \"dotnet.*MIMS.Api\")",
+      "Bash(aws:*)",
+      "Bash(docker exec mims_localstack:*)",
+      "Bash(docker exec:*)"
+    ]
+  }
+}

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Data Source Preview - MapEngine</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#a9b4b9",
+                        "on-secondary-container": "#455367",
+                        "on-primary": "#f8f7ff",
+                        "tertiary-container": "#dfd5f7",
+                        "secondary-container": "#d5e3fc",
+                        "error-dim": "#4e0309",
+                        "inverse-surface": "#0b0f10",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-dim": "#465468",
+                        "on-error": "#fff7f6",
+                        "on-background": "#2a3439",
+                        "secondary": "#526074",
+                        "on-tertiary-fixed-variant": "#59526e",
+                        "primary-fixed-dim": "#cad2ff",
+                        "on-secondary": "#f8f8ff",
+                        "tertiary-dim": "#564f6b",
+                        "tertiary-fixed": "#dfd5f7",
+                        "error-container": "#fe8983",
+                        "inverse-primary": "#6d89fa",
+                        "on-primary-fixed": "#0732a3",
+                        "surface-container-low": "#f0f4f7",
+                        "surface-container-highest": "#d9e4ea",
+                        "surface": "#f7f9fb",
+                        "primary-dim": "#2848b7",
+                        "on-tertiary-container": "#4f4964",
+                        "secondary-fixed-dim": "#c7d5ed",
+                        "outline": "#717c82",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-tertiary": "#fdf7ff",
+                        "on-primary-container": "#2747b6",
+                        "on-error-container": "#752121",
+                        "primary-fixed": "#dde1ff",
+                        "surface-variant": "#d9e4ea",
+                        "background": "#f7f9fb",
+                        "surface-tint": "#3755c3",
+                        "on-surface-variant": "#566166",
+                        "error": "#9f403d",
+                        "on-secondary-fixed": "#324053",
+                        "primary": "#3755c3",
+                        "tertiary-fixed-dim": "#d0c7e8",
+                        "tertiary": "#625b77",
+                        "primary-container": "#dde1ff",
+                        "surface-container-high": "#e1e9ee",
+                        "on-tertiary-fixed": "#3c3650",
+                        "surface-dim": "#cfdce3",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#4e5c71",
+                        "on-primary-fixed-variant": "#3352c0",
+                        "inverse-on-surface": "#9a9d9f",
+                        "on-surface": "#2a3439",
+                        "surface-container": "#e8eff3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50 dark:bg-slate-900 h-16 flex justify-between items-center px-6 border-b border-surface-container-highest">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-primary dark:text-blue-400 font-headline">MapEngine</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-headline text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Home</a>
+<a class="font-headline text-sm font-medium text-primary dark:text-blue-400 border-b-2 border-primary dark:border-blue-400 pb-1" href="#">Data Sources</a>
+<a class="font-headline text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Mappings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Professional studio portrait of a woman with minimalist lighting and a neutral professional background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXAxhnzgjpcBj18rK0rNHlYycLIMjz5QASEIr46sMsYDE-_BdOPKMRRrjX_ZJs0Lih14asQDvXWmW9qj14KjZEE3PHH2wcUrGrTJGlRbbdFlEPhBkRlJgILNIq7cPpvhjngf0h5BaugSlfYzP2rxmqB1y5OC2EXSuspaZJCJVVITfKlPd4DJy-hX-mOsoekoWAxZXjp3YB9OHmdMjXWER4l5JurGG6wbiEosqyae4vX81WC0NPjZr59_JSeUIUt7fw0N_4bdvtMF20"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-full w-64 bg-slate-50 dark:bg-slate-800 flex flex-col p-4 gap-2 border-r border-surface-container-highest">
+<div class="px-2 py-4 mb-4">
+<p class="font-headline text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Workspace</p>
+<p class="font-body text-[10px] text-slate-500">Data Mapping v1.0</p>
+</div>
+<div class="space-y-1">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all font-body text-sm rounded-lg">
+<span class="material-symbols-outlined">upload_file</span>
+                Recent Uploads
+            </button>
+<button class="w-full flex items-center gap-3 px-3 py-2 bg-white dark:bg-slate-900 text-primary dark:text-blue-400 font-semibold rounded-lg font-body text-sm shadow-sm border border-slate-200">
+<span class="material-symbols-outlined">account_tree</span>
+                Active Projects
+            </button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all font-body text-sm rounded-lg">
+<span class="material-symbols-outlined">archive</span>
+                Archived
+            </button>
+</div>
+<div class="mt-8 px-2">
+<button class="w-full py-2 bg-primary text-on-primary rounded-lg font-medium text-sm flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 duration-150 transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                Upload
+            </button>
+</div>
+<div class="mt-auto pb-20 space-y-1 border-t border-slate-200 dark:border-slate-700 pt-4">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all font-body text-sm rounded-lg">
+<span class="material-symbols-outlined">help</span>
+                Help
+            </button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all font-body text-sm rounded-lg">
+<span class="material-symbols-outlined">chat_bubble</span>
+                Feedback
+            </button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 mt-16 p-8 min-h-screen bg-surface">
+<div class="max-w-5xl mx-auto">
+<!-- Header Section -->
+<div class="mb-8">
+<nav class="flex items-center gap-2 text-on-surface-variant text-[10px] font-headline uppercase tracking-widest mb-3">
+<span class="hover:text-primary cursor-pointer">Data Sources</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-on-surface">Preview</span>
+</nav>
+<div class="flex items-center justify-between">
+<div>
+<h1 class="text-2xl font-extrabold font-headline text-on-surface tracking-tight mb-1">Customer_Inventory_Master_v2</h1>
+<div class="flex items-center gap-4 text-xs text-on-surface-variant">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs">calendar_today</span>
+                                Updated 2h ago
+                            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Dashboard Content Layout -->
+<div class="space-y-6">
+<!-- Table Container -->
+<div class="bg-surface-container-lowest border border-surface-container-high rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50 border-b border-surface-container-high">
+<th class="px-4 py-3 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-headline w-12 text-center">#</th>
+<th class="px-6 py-3 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-headline">Primary</th>
+<th class="px-6 py-3 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-headline">Description</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-4 py-2.5 text-xs text-on-surface-variant text-center font-medium">1</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="font-semibold text-on-surface text-sm">customer_id</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-xs text-on-surface-variant">Unique identifier for each customer account globally.</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-4 py-2.5 text-xs text-on-surface-variant text-center font-medium">2</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="font-semibold text-on-surface text-sm">full_name</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-xs text-on-surface-variant">Combined first and last name as recorded in registry.</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-4 py-2.5 text-xs text-on-surface-variant text-center font-medium">3</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="font-semibold text-on-surface text-sm">email_address</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-xs text-on-surface-variant">Primary contact email used for transaction notifications.</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-4 py-2.5 text-xs text-on-surface-variant text-center font-medium">4</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="font-semibold text-on-surface text-sm">purchase_total</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-xs text-on-surface-variant">Aggregate value of all completed orders in USD.</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-4 py-2.5 text-xs text-on-surface-variant text-center font-medium">5</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="font-semibold text-on-surface text-sm">last_login</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-xs text-on-surface-variant">Timestamp of the most recent user authentication event.</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-4 py-2.5 text-xs text-on-surface-variant text-center font-medium">6</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="font-semibold text-on-surface text-sm">region_code</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-xs text-on-surface-variant">ISO standardized code for geographical jurisdiction.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Component -->
+<div class="flex items-center justify-between px-6 py-4 bg-surface-container-low/30 border-t border-surface-container-high">
+<div class="flex items-center gap-4">
+<span class="text-xs text-on-surface-variant">Showing <span class="font-bold text-on-surface">1-6</span> of 24</span>
+<div class="flex items-center gap-2">
+<span class="text-xs text-on-surface-variant">Rows per page:</span>
+<select class="bg-transparent border-none text-xs font-bold text-on-surface focus:ring-0 cursor-pointer">
+<option>10</option>
+<option>20</option>
+<option>50</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-xl">first_page</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</button>
+<div class="flex items-center px-2">
+<span class="text-xs font-bold text-primary">1</span>
+<span class="text-xs text-on-surface-variant mx-2">of</span>
+<span class="text-xs font-bold text-on-surface">3</span>
+</div>
+<button class="p-1 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">last_page</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

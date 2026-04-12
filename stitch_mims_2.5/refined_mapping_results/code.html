@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mapping Results | MapEngine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#a9b4b9",
+                        "on-secondary-container": "#455367",
+                        "on-primary": "#f8f7ff",
+                        "tertiary-container": "#dfd5f7",
+                        "secondary-container": "#d5e3fc",
+                        "error-dim": "#4e0309",
+                        "inverse-surface": "#0b0f10",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-dim": "#465468",
+                        "on-error": "#fff7f6",
+                        "on-background": "#2a3439",
+                        "secondary": "#526074",
+                        "on-tertiary-fixed-variant": "#59526e",
+                        "primary-fixed-dim": "#cad2ff",
+                        "on-secondary": "#f8f8ff",
+                        "tertiary-dim": "#564f6b",
+                        "tertiary-fixed": "#dfd5f7",
+                        "error-container": "#fe8983",
+                        "inverse-primary": "#6d89fa",
+                        "on-primary-fixed": "#0732a3",
+                        "surface-container-low": "#f0f4f7",
+                        "surface-container-highest": "#d9e4ea",
+                        "surface": "#f7f9fb",
+                        "primary-dim": "#2848b7",
+                        "on-tertiary-container": "#4f4964",
+                        "secondary-fixed-dim": "#c7d5ed",
+                        "outline": "#717c82",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-tertiary": "#fdf7ff",
+                        "on-primary-container": "#2747b6",
+                        "on-error-container": "#752121",
+                        "primary-fixed": "#dde1ff",
+                        "surface-variant": "#d9e4ea",
+                        "background": "#f7f9fb",
+                        "surface-tint": "#3755c3",
+                        "on-surface-variant": "#566166",
+                        "error": "#9f403d",
+                        "on-secondary-fixed": "#324053",
+                        "primary": "#3755c3",
+                        "tertiary-fixed-dim": "#d0c7e8",
+                        "tertiary": "#625b77",
+                        "primary-container": "#dde1ff",
+                        "surface-container-high": "#e1e9ee",
+                        "on-tertiary-fixed": "#3c3650",
+                        "surface-dim": "#cfdce3",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#4e5c71",
+                        "on-primary-fixed-variant": "#3352c0",
+                        "inverse-on-surface": "#9a9d9f",
+                        "on-surface": "#2a3439",
+                        "surface-container": "#e8eff3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+        }
+        /* Modal visibility toggle for demo purposes */
+        #change-mapping-modal:target {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50 flex justify-between items-center h-16 px-6 border-b border-slate-200">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-600 font-headline">MapEngine</span>
+<nav class="hidden md:flex gap-6 items-center h-full">
+<a class="font-manrope text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" href="#">Home</a>
+<a class="font-manrope text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" href="#">Data Sources</a>
+<a class="font-manrope text-sm font-medium text-blue-600 border-b-2 border-blue-600 pb-1" href="#">Mappings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 ring-2 ring-surface-container-high">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="professional male portrait with neutral expression for user profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVZ05puydELAjWGr2kwfA2TVKgU2V8Vc7rYYrHCW89dBn3hHVfjyGUfKM_wUpgXo_QATUyucQ1HsThNbIYXBlS09zl9s8mLcD5iSJYar4hpOyXdYzmG-fS23-v8rvMlpTQqlJbw4l5kbjcvZlbQdKKNiOVeetcDIrISPqe6aZGsEIhuVJpy0iVeZW_aTV_a_KJr3VfzJodahylypEE0SHdnxPQ4qNFo6eD3MEr3bYcThjgIgdFZ5ElBoJ8RQhHCzN5oC16UTlRGaSv"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-full w-64 bg-slate-100 flex flex-col p-4 gap-2 z-40 border-r border-slate-200">
+<div class="mb-6 px-2">
+<h2 class="text-on-surface font-headline font-bold text-sm tracking-tight">Workspace</h2>
+<p class="text-on-surface-variant text-xs">Data Mapping v1.0</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-all text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+                Recent Uploads
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 bg-white text-blue-600 font-semibold rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+                Active Projects
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-all text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined">archive</span>
+                Archived
+            </a>
+</nav>
+<button class="mt-4 mb-8 bg-gradient-to-br from-primary to-primary-dim text-on-primary py-2 px-4 rounded font-medium shadow-sm hover:opacity-90 active:scale-95 transition-all text-sm">
+            Upload
+        </button>
+<div class="border-t border-slate-200 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-all text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+                Help
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-all text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+                Feedback
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen bg-surface">
+<div class="max-w-7xl mx-auto p-8">
+<!-- Header Section -->
+<div class="mb-8">
+<h1 class="text-2xl font-headline font-bold text-on-surface mb-1">Mapping Results</h1>
+<p class="text-sm text-on-surface-variant">Review the automated connections between ERP_Source_v2 and Master_Schema_Global.</p>
+</div>
+<!-- Single Clean Data Grid -->
+<div class="bg-surface-container-lowest rounded shadow-sm border border-surface-container-highest overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container border-b border-surface-container-highest text-on-surface-variant text-xs uppercase tracking-wider font-semibold"><th class="px-4 py-4 w-12 text-center">#</th>
+<th class="px-6 py-4">Source Field</th>
+<th class="px-6 py-4">Mapped Target Field</th>
+<th class="px-6 py-4">Mapping Type</th>
+<th class="px-6 py-4">Verified Status</th>
+<th class="px-4 py-4 w-10 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></th></tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low text-sm">
+<tr class="hover:bg-surface-container-low transition-colors"><td class="px-4 py-4 text-center font-medium text-on-surface-variant">1</td>
+<td class="px-6 py-4">
+<div class="font-mono font-bold text-primary-dim">USR_9921_X</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Global User Identity / Head Office</div>
+</td>
+<td class="px-6 py-4 cursor-pointer hover:bg-primary/5 transition-colors group">
+<a class="block" href="#change-mapping-modal">
+<div class="font-mono font-bold text-secondary group-hover:text-primary transition-colors">USER_ID_PROD</div>
+<div class="text-xs text-on-surface-variant italic mt-0.5">Unique identifier for end users</div>
+</a>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700">Auto</span>
+</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-1.5 text-emerald-600 font-medium">
+<span class="material-symbols-outlined text-[18px] font-bold">check</span>
+                                        Verified
+                                    </span>
+</td>
+<td class="px-4 py-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></td></tr>
+<tr class="hover:bg-surface-container-low transition-colors"><td class="px-4 py-4 text-center font-medium text-on-surface-variant">2</td>
+<td class="px-6 py-4">
+<div class="font-mono font-bold text-primary-dim">TRX_REF_002</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Vendor Payment Transaction Reference</div>
+</td>
+<td class="px-6 py-4 cursor-pointer hover:bg-primary/5 transition-colors group">
+<a class="block" href="#change-mapping-modal">
+<div class="font-mono font-bold text-secondary group-hover:text-primary transition-colors">TRANSACTION_UUID</div>
+<div class="text-xs text-on-surface-variant italic mt-0.5">Universal transaction record key</div>
+</a>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700">Auto</span>
+</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-1.5 text-emerald-600 font-medium">
+<span class="material-symbols-outlined text-[18px] font-bold">check</span>
+                                        Verified
+                                    </span>
+</td>
+<td class="px-4 py-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></td></tr>
+<tr class="hover:bg-surface-container-low transition-colors"><td class="px-4 py-4 text-center font-medium text-on-surface-variant">3</td>
+<td class="px-6 py-4">
+<div class="font-mono font-bold text-primary-dim">LOC_EUR_DE</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Location Metadata: Germany Hub</div>
+</td>
+<td class="px-6 py-4 cursor-pointer hover:bg-primary/5 transition-colors group">
+<a class="block" href="#change-mapping-modal">
+<div class="font-mono font-bold text-secondary group-hover:text-primary transition-colors">GEO_REGION_CODE</div>
+<div class="text-xs text-on-surface-variant italic mt-0.5">Geographical cluster identification</div>
+</a>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-700 border border-amber-100">Manual</span>
+</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-1.5 text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-[18px]">radio_button_unchecked</span>
+                                        Unverified
+                                    </span>
+</td>
+<td class="px-4 py-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></td></tr>
+<tr class="hover:bg-surface-container-low transition-colors"><td class="px-4 py-4 text-center font-medium text-on-surface-variant">4</td>
+<td class="px-6 py-4">
+<div class="font-mono font-bold text-primary-dim">SKU_VLT_99</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Vault Stock Unit - High Value</div>
+</td>
+<td class="px-6 py-4 cursor-pointer hover:bg-primary/5 transition-colors group">
+<a class="block" href="#change-mapping-modal">
+<div class="font-mono font-bold text-secondary group-hover:text-primary transition-colors">INV_STOCK_VAL</div>
+<div class="text-xs text-on-surface-variant italic mt-0.5">Inventory stock valuation metrics</div>
+</a>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700">Auto</span>
+</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-1.5 text-emerald-600 font-medium">
+<span class="material-symbols-outlined text-[18px] font-bold">check</span>
+                                        Verified
+                                    </span>
+</td>
+<td class="px-4 py-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></td></tr>
+<tr class="hover:bg-surface-container-low transition-colors"><td class="px-4 py-4 text-center font-medium text-on-surface-variant">5</td>
+<td class="px-6 py-4">
+<div class="font-mono font-bold text-primary-dim">TAX_RT_2024</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Applicable Tax Rate - Fiscal Year</div>
+</td>
+<td class="px-6 py-4 cursor-pointer hover:bg-primary/5 transition-colors group">
+<a class="block" href="#change-mapping-modal">
+<div class="font-mono font-bold text-error group-hover:opacity-80">UNRESOLVED</div>
+<div class="text-xs text-error mt-0.5 italic">No matching schema node found.</div>
+</a>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-error/10 text-error">-</span>
+</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-1.5 text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-[18px]">radio_button_unchecked</span>
+                                        Unverified
+                                    </span>
+</td>
+<td class="px-4 py-4 text-center"><input checked="" class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Footer Pagination / Filters -->
+<div class="mt-6 flex items-center justify-between">
+<div class="flex gap-2">
+<button class="bg-surface-container-high px-4 py-2 rounded text-xs font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        All Records
+                    </button>
+<button class="bg-surface-container-lowest border border-surface-container-highest px-4 py-2 rounded text-xs font-semibold text-on-surface-variant flex items-center gap-2 hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+                        Review Only
+                    </button>
+</div>
+<div class="flex items-center gap-4 text-sm text-on-surface-variant">
+<span>Page 1 of 250</span>
+<div class="flex gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-br from-primary to-primary-dim text-on-primary rounded shadow-2xl flex items-center justify-center group hover:scale-105 transition-transform z-50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+<span class="absolute right-16 bg-on-surface text-surface text-xs py-1 px-3 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Manual Link</span>
+</button>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/40 backdrop-blur-sm p-4" id="change-mapping-modal">
+<div class="bg-white w-full max-w-2xl rounded-lg shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+<!-- Modal Header -->
+<div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+<h3 class="text-lg font-headline font-bold text-on-surface">Change Mapping</h3>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">close</span>
+</a>
+</div>
+<!-- Modal Body -->
+<div class="p-6 space-y-6">
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2" for="source-desc">Source Description</label>
+<textarea class="w-full rounded border-surface-container-highest bg-surface-container-low text-sm p-3 focus:border-primary focus:ring-primary" id="source-desc" readonly="" rows="3">Global User Identity / Head Office location for unified authentication and access management across multiple regional instances.</textarea>
+</div>
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-3">Relevant Target Data</label>
+<div class="border border-surface-container-highest rounded overflow-hidden">
+<table class="w-full text-left text-sm">
+<thead class="bg-surface-container text-on-surface-variant text-xs font-semibold uppercase">
+<tr>
+<th class="px-4 py-3">Field Name</th>
+<th class="px-4 py-4 w-10 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></th></tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<tr class="hover:bg-primary/5 cursor-pointer transition-colors bg-primary-container/20">
+<td class="px-4 py-3 font-mono font-bold text-primary-dim">USER_ID_PROD</td>
+<td class="px-4 py-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></td></tr>
+<tr class="hover:bg-primary/5 cursor-pointer transition-colors">
+<td class="px-4 py-3 font-mono font-bold text-secondary">EMP_REF_ID</td>
+<td class="px-4 py-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></td></tr>
+<tr class="hover:bg-primary/5 cursor-pointer transition-colors">
+<td class="px-4 py-3 font-mono font-bold text-secondary">ACCOUNT_UUID</td>
+<td class="px-4 py-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></td></tr>
+<tr class="hover:bg-primary/5 cursor-pointer transition-colors">
+<td class="px-4 py-3 font-mono font-bold text-secondary">LOGIN_ID_HASH</td>
+<td class="px-4 py-4 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-6 py-4 bg-surface-container border-t border-slate-100 flex justify-end gap-3">
+<a class="px-4 py-2 rounded text-sm font-medium text-on-surface-variant hover:bg-surface-container-highest transition-colors" href="#">Cancel</a>
+<button class="px-4 py-2 rounded text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-opacity">Apply Mapping</button>
+</div>
+</div>
+</div>
+</body></html>

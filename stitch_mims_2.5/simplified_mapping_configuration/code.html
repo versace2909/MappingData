@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MapEngine - Mapping Configuration</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#a9b4b9",
+                        "on-secondary-container": "#455367",
+                        "on-primary": "#f8f7ff",
+                        "tertiary-container": "#dfd5f7",
+                        "secondary-container": "#d5e3fc",
+                        "error-dim": "#4e0309",
+                        "inverse-surface": "#0b0f10",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-dim": "#465468",
+                        "on-error": "#fff7f6",
+                        "on-background": "#2a3439",
+                        "secondary": "#526074",
+                        "on-tertiary-fixed-variant": "#59526e",
+                        "primary-fixed-dim": "#cad2ff",
+                        "on-secondary": "#f8f8ff",
+                        "tertiary-dim": "#564f6b",
+                        "tertiary-fixed": "#dfd5f7",
+                        "error-container": "#fe8983",
+                        "inverse-primary": "#6d89fa",
+                        "on-primary-fixed": "#0732a3",
+                        "surface-container-low": "#f0f4f7",
+                        "surface-container-highest": "#d9e4ea",
+                        "surface": "#f7f9fb",
+                        "primary-dim": "#2848b7",
+                        "on-tertiary-container": "#4f4964",
+                        "secondary-fixed-dim": "#c7d5ed",
+                        "outline": "#717c82",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-tertiary": "#fdf7ff",
+                        "on-primary-container": "#2747b6",
+                        "on-error-container": "#752121",
+                        "primary-fixed": "#dde1ff",
+                        "surface-variant": "#d9e4ea",
+                        "background": "#f7f9fb",
+                        "surface-tint": "#3755c3",
+                        "on-surface-variant": "#566166",
+                        "error": "#9f403d",
+                        "on-secondary-fixed": "#324053",
+                        "primary": "#3755c3",
+                        "tertiary-fixed-dim": "#d0c7e8",
+                        "tertiary": "#625b77",
+                        "primary-container": "#dde1ff",
+                        "surface-container-high": "#e1e9ee",
+                        "on-tertiary-fixed": "#3c3650",
+                        "surface-dim": "#cfdce3",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#4e5c71",
+                        "on-primary-fixed-variant": "#3352c0",
+                        "inverse-on-surface": "#9a9d9f",
+                        "on-surface": "#2a3439",
+                        "surface-container": "#e8eff3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-cta {
+            background: linear-gradient(135deg, #3755c3 0%, #2848b7 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d9e4ea;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50 dark:bg-slate-900 flex justify-between items-center h-16 px-6 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-600 dark:text-blue-400 font-headline tracking-tight">MapEngine</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-manrope text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Home</a>
+<a class="font-manrope text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Data Sources</a>
+<a class="font-manrope text-sm font-medium text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 pb-1" href="#">Mappings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors">
+<span class="material-symbols-outlined text-slate-600">notifications</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors">
+<span class="material-symbols-outlined text-slate-600">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User profile" data-alt="professional headshot of a software engineer in a clean studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkX4tqme2tgUosP8GMCIU24YU1QU2t8K88inK6l0LB7nI5TDgY3dtaz0Ia5qG7Pcsh_U6Vn81xXiNwfv-UDFkDuMGkeQKDxx4EzzDtudgIfzAN2vnvBeFRNLfhozIk7uqEnCEwLu1bi9v8Y8hjOeabxEMT5QWr-H__RaOm1X2kT9z2p9wgd9OBFuCeOWd638WXW1tU1VgLHBYk9O2g_D5-7xNtX4JwCXyOigOoBeS9kqPIf9FvGQW17qsejV5Y2tfYRpWbCKwNKb_c"/>
+</div>
+</div>
+</header>
+<!-- Main Content Shell -->
+<main class="pt-16 min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-full w-64 bg-slate-100 dark:bg-slate-800 flex flex-col p-4 gap-2">
+<div class="mb-6 px-2">
+<h3 class="text-xs font-bold uppercase tracking-wider text-on-surface-variant font-label">Workspace</h3>
+<p class="text-xs text-slate-500">Data Mapping v1.0</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-all active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+<span class="font-inter text-sm">Recent Uploads</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-semibold rounded-lg transition-all active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-inter text-sm">Active Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-all active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">archive</span>
+<span class="font-inter text-sm">Archived</span>
+</a>
+</nav>
+<button class="mt-4 mx-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm">
+                Upload
+            </button>
+<div class="mt-auto pt-4 space-y-1 border-t border-slate-200 dark:border-slate-700">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-inter text-sm">Help</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-inter text-sm">Feedback</span>
+</a>
+</div>
+</aside>
+<!-- Canvas Area -->
+<section class="ml-64 flex-1 p-8 bg-surface flex flex-col items-center">
+<div class="w-full max-w-4xl">
+<header class="mb-10 text-center">
+<h1 class="text-3xl font-headline font-bold text-on-surface tracking-tight mb-2">Configure Mapping</h1>
+<p class="text-on-surface-variant mx-auto max-w-2xl">Define the relationship between your datasets. Select a source and target to begin the automated schema alignment process.</p>
+</header>
+<!-- Mapping Grid (Simplified) -->
+<div class="bg-surface-container-low rounded-2xl p-8 shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-10 items-end">
+<!-- Source Selection -->
+<div class="space-y-3">
+<label class="block">
+<span class="text-sm font-bold font-headline text-on-surface uppercase tracking-wide">Source Data</span>
+<div class="mt-2 relative">
+<select class="w-full pl-4 pr-10 py-3 bg-white border border-outline-variant/30 rounded-xl text-sm appearance-none focus:ring-2 focus:ring-primary/50 transition-all cursor-pointer">
+<option disabled="" selected="" value="">Select Source...</option>
+<option>customer_export_v2.csv</option>
+<option>inventory_master_list.xlsx</option>
+<option>user_logs_may_2024.json</option>
+</select>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline pointer-events-none">expand_more</span>
+</div>
+</label>
+</div>
+<!-- Central Connector Logic -->
+<div class="flex flex-col items-center justify-center pb-0.5">
+<button class="signature-cta text-on-primary w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all group relative">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<div class="absolute -bottom-12 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity bg-on-surface text-surface text-[10px] font-bold py-1 px-2 rounded">Run Auto-Map</div>
+</button>
+</div>
+<!-- Target Selection -->
+<div class="space-y-3">
+<label class="block">
+<span class="text-sm font-bold font-headline text-on-surface uppercase tracking-wide">Target Data</span>
+<div class="mt-2 relative">
+<select class="w-full pl-4 pr-10 py-3 bg-white border border-outline-variant/30 rounded-xl text-sm appearance-none focus:ring-2 focus:ring-primary/50 transition-all cursor-pointer">
+<option disabled="" selected="" value="">Select Target...</option>
+<option>Global_Customer_Standard.schema</option>
+<option>Salesforce_Contact_Sync.json</option>
+<option>AWS_Redshift_Final.yml</option>
+</select>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline pointer-events-none">expand_more</span>
+</div>
+</label>
+</div>
+</div>
+<div class="mt-12 flex justify-center">
+<button class="px-8 py-3 bg-primary text-on-primary font-semibold rounded-xl shadow-md hover:bg-primary-dim transition-colors">
+                            Continue to Field Mapping
+                        </button>
+</div>
+</div>
+<!-- Guidance Note -->
+<div class="mt-10 p-6 border border-outline-variant/20 rounded-xl bg-surface-container-lowest flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+<div class="text-sm text-on-surface-variant leading-relaxed">
+<p class="font-semibold text-on-surface mb-1">How it works</p>
+                        Select the source dataset you want to import and the target schema you wish to map it to. MapEngine will automatically suggest field correlations based on semantic analysis.
+                    </div>
+</div>
+</div>
+</section>
+</main>
+</body></html>
