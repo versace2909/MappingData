@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MIMS.Application.Common.Exceptions;
 using MIMS.Application.DataSources.Commands.UploadDataSource;
+using MIMS.Application.DataSources.Queries.GetDataSources;
+using MIMS.Application.DataSources.Queries.GetRecentDataSources;
 
 namespace MIMS.Api.Controllers;
 
@@ -56,6 +58,25 @@ public class FileController(IMediator mediator) : ControllerBase
         {
             return StatusCode(503, new { error = "File storage service is unavailable. Please try again later." });
         }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await mediator.Send(new GetDataSourcesQuery(page, pageSize), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("recent")]
+    public async Task<IActionResult> GetRecent(
+        [FromQuery] string? sourceName,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetRecentDataSourcesQuery(sourceName), cancellationToken);
+        return Ok(result);
     }
 
     [HttpGet("template")]

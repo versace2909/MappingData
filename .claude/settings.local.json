@@ -23,7 +23,14 @@
       "Bash(pkill -f \"dotnet.*MIMS.Api\")",
       "Bash(aws:*)",
       "Bash(docker exec mims_localstack:*)",
-      "Bash(docker exec:*)"
+      "Bash(docker exec:*)",
+      "Bash(xargs kill:*)",
+      "Bash(kill -9 7476 12856)",
+      "Bash(openspec new:*)",
+      "Bash(xargs cat:*)",
+      "Bash(kill 13161)",
+      "Bash(ls:*)",
+      "Bash(openspec list:*)"
     ]
   }
 }

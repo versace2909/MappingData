@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AppLayout from "@/components/layout/AppLayout";
 
 const ALLOWED_EXTENSIONS = [".xlsx", ".csv"];
@@ -8,6 +8,30 @@ const ALLOWED_EXTENSIONS = [".xlsx", ".csv"];
 function getFileExtension(filename: string): string {
   const idx = filename.lastIndexOf(".");
   return idx >= 0 ? filename.slice(idx).toLowerCase() : "";
+}
+
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleString();
+}
+
+interface RecentDataSource {
+  dataSourceName: string;
+  uploadDate: string;
+  fileSize: number;
+  downloadUrl: string;
+}
+
+async function fetchRecentDataSources(sourceName?: string): Promise<RecentDataSource[]> {
+  const params = sourceName ? `?sourceName=${encodeURIComponent(sourceName)}` : "";
+  const res = await fetch(`/api/data-sources/recent${params}`);
+  if (!res.ok) throw new Error(`Failed to fetch recent data sources (${res.status})`);
+  return res.json();
 }
 
 export default function UploadDashboardPage() {
@@ -20,6 +44,37 @@ export default function UploadDashboardPage() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [recentSources, setRecentSources] = useState<RecentDataSource[]>([]);
+  const [recentLoading, setRecentLoading] = useState(false);
+  const [recentError, setRecentError] = useState<string | null>(null);
+  const [filterText, setFilterText] = useState("");
+
+  async function loadRecentSources(sourceName?: string) {
+    setRecentLoading(true);
+    setRecentError(null);
+    try {
+      const data = await fetchRecentDataSources(sourceName);
+      setRecentSources(data);
+    } catch {
+      setRecentError("Failed to load recent data sources.");
+    } finally {
+      setRecentLoading(false);
+    }
+  }
+
+  // Initial fetch on mount
+  useEffect(() => {
+    loadRecentSources();
+  }, []);
+
+  // Debounced fetch on filterText change
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadRecentSources(filterText || undefined);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [filterText]);
 
   function validateFile(file: File): string | null {
     const ext = getFileExtension(file.name);
@@ -91,6 +146,8 @@ export default function UploadDashboardPage() {
         setSelectedFile(null);
         setDataSourceName("");
         if (fileInputRef.current) fileInputRef.current.value = "";
+        // Refresh recent data sources after successful upload
+        loadRecentSources(filterText || undefined);
       } else {
         const data = await res.json().catch(() => null);
         setSubmitError(data?.error ?? `Upload failed (${res.status}).`);
@@ -271,6 +328,8 @@ export default function UploadDashboardPage() {
                       <input
                         type="text"
                         placeholder="Search sources..."
+                        value={filterText}
+                        onChange={(e) => setFilterText(e.target.value)}
                         className="pl-8 pr-4 py-1.5 bg-[#f0f4f7] rounded-lg text-sm border-none outline-none focus:ring-1 w-64"
                         style={{ outline: "none" }}
                       />
@@ -303,11 +362,63 @@ export default function UploadDashboardPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td colSpan={4} className="px-6 py-8 text-center text-sm text-[#566166]">
-                          No data sources uploaded yet.
-                        </td>
-                      </tr>
+                      {recentLoading ? (
+                        <>
+                          {[1, 2, 3].map((i) => (
+                            <tr key={i} className="border-t border-[#f0f4f7]">
+                              <td className="px-6 py-4">
+                                <div className="h-4 bg-[#f0f4f7] rounded animate-pulse w-40" />
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="h-4 bg-[#f0f4f7] rounded animate-pulse w-32" />
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="h-4 bg-[#f0f4f7] rounded animate-pulse w-16" />
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="h-4 bg-[#f0f4f7] rounded animate-pulse w-20 ml-auto" />
+                              </td>
+                            </tr>
+                          ))}
+                        </>
+                      ) : recentError ? (
+                        <tr>
+                          <td colSpan={4} className="px-6 py-8 text-center text-sm text-red-500">
+                            {recentError}
+                          </td>
+                        </tr>
+                      ) : recentSources.length === 0 ? (
+                        <tr>
+                          <td colSpan={4} className="px-6 py-8 text-center text-sm text-[#566166]">
+                            No data sources uploaded yet.
+                          </td>
+                        </tr>
+                      ) : (
+                        recentSources.map((source, idx) => (
+                          <tr key={idx} className="border-t border-[#f0f4f7] hover:bg-[#f7f9fb] transition-colors">
+                            <td className="px-6 py-4 text-sm font-medium text-[#2a3439]">
+                              {source.dataSourceName}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-[#566166]">
+                              {formatDate(source.uploadDate)}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-[#566166]">
+                              {formatFileSize(source.fileSize)}
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <a
+                                href={source.downloadUrl}
+                                download
+                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#3755c3] border hover:bg-[#f0f4f7] transition-colors"
+                                style={{ borderColor: "rgba(55,85,195,0.3)" }}
+                              >
+                                <span className="material-symbols-outlined text-[14px]">download</span>
+                                Download
+                              </a>
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </div>
