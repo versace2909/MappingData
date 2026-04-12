@@ -15,3 +15,25 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
 
   return res.json() as Promise<T>;
 }
+
+export interface DataSourceDetailItem {
+  primary: string;
+  description: string;
+}
+
+export interface DataSourceDetailsPagedResult {
+  items: DataSourceDetailItem[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}
+
+export async function getDataSourceDetails(
+  id: string,
+  page = 1,
+  pageSize = 10
+): Promise<DataSourceDetailsPagedResult> {
+  return apiFetch<DataSourceDetailsPagedResult>(
+    `/api/data-sources/${id}/details?page=${page}&pageSize=${pageSize}`
+  );
+}

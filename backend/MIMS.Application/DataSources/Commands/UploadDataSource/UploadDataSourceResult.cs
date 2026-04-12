@@ -1,3 +1,3 @@
 namespace MIMS.Application.DataSources.Commands.UploadDataSource;
 
-public record UploadDataSourceResult(Guid DataSourceId, string DataSourceName);
+public record UploadDataSourceResult(int DataSourceId, string DataSourceName);

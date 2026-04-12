@@ -13,6 +13,21 @@ public class DataSourceDetailConfiguration : IEntityTypeConfiguration<DataSource
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasColumnName("id");
 
+        builder.Property(x => x.CreatedDate)
+            .HasColumnName("created_date")
+            .IsRequired();
+
+        builder.Property(x => x.UpdatedDate)
+            .HasColumnName("updated_date");
+
+        builder.Property(x => x.CreatedBy)
+            .HasColumnName("created_by")
+            .HasMaxLength(200);
+
+        builder.Property(x => x.UpdatedBy)
+            .HasColumnName("updated_by")
+            .HasMaxLength(200);
+
         builder.Property(x => x.DataSourceId)
             .HasColumnName("data_source_id")
             .IsRequired();
@@ -31,22 +46,6 @@ public class DataSourceDetailConfiguration : IEntityTypeConfiguration<DataSource
             .HasColumnName("normalize_column_data")
             .IsRequired()
             .HasMaxLength(2000);
-
-        builder.Property(x => x.CreatedBy)
-            .HasColumnName("created_by")
-            .IsRequired()
-            .HasMaxLength(200);
-
-        builder.Property(x => x.UpdatedBy)
-            .HasColumnName("updated_by")
-            .HasMaxLength(200);
-
-        builder.Property(x => x.CreatedDate)
-            .HasColumnName("created_date")
-            .IsRequired();
-
-        builder.Property(x => x.UpdatedDate)
-            .HasColumnName("updated_date");
 
         builder.HasOne(x => x.DataSource)
             .WithMany(x => x.DataSourceDetails)

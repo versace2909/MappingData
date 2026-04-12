@@ -1,10 +1,10 @@
 namespace MIMS.Application.DataSources.Queries.GetDataSources;
 
 public record DataSourceListItemDto(
-    Guid Id,
+    int Id,
     string DataSourceName,
     DateTime CreatedDate,
-    string CreatedBy);
+    string? CreatedBy);
 
 public record DataSourcesPagedResult(
     List<DataSourceListItemDto> Items,

@@ -1,15 +1,32 @@
 import AppLayout from "@/components/layout/AppLayout";
 import Link from "next/link";
-import { dataSourcePreviewFields, dataSources } from "@/lib/mockData";
+import { getDataSourceDetails } from "@/lib/api";
+
+const PAGE_SIZE = 10;
 
 export default async function DataSourcePreviewPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { id } = await params;
-  const source = dataSources.find((ds) => ds.id === id);
-  const sourceName = source?.name ?? `Customer_Inventory_Master_v2`;
+  const { page: pageParam } = await searchParams;
+  const page = Math.max(1, Number(pageParam ?? "1") || 1);
+
+  let result;
+  try {
+    result = await getDataSourceDetails(id, page, PAGE_SIZE);
+  } catch {
+    result = { items: [], totalCount: 0, page, pageSize: PAGE_SIZE };
+  }
+
+  const { items, totalCount, pageSize } = result;
+  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+
+  const buildPageUrl = (p: number) =>
+    `/data-sources/${id}?page=${p}`;
 
   return (
     <AppLayout>
@@ -30,15 +47,9 @@ export default async function DataSourcePreviewPage({
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-extrabold text-[#2a3439] tracking-tight mb-1 font-headline">
-                  {sourceName}
+                  Data Source
                 </h1>
                 <div className="flex items-center gap-4 text-xs text-[#566166]">
-                  <span className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined" style={{ fontSize: "12px" }}>
-                      calendar_today
-                    </span>
-                    Updated 2h ago
-                  </span>
                   <span className="flex items-center gap-1.5">
                     <span className="material-symbols-outlined" style={{ fontSize: "12px" }}>
                       tag
@@ -80,28 +91,39 @@ export default async function DataSourcePreviewPage({
                   </tr>
                 </thead>
                 <tbody>
-                  {dataSourcePreviewFields.map((field) => (
-                    <tr
-                      key={field.id}
-                      className="hover:bg-[#f0f4f7]/30 transition-colors"
-                      style={{ borderBottom: "1px solid #f0f4f7" }}
-                    >
-                      <td className="px-4 py-2.5 text-xs text-[#566166] text-center font-medium">
-                        {field.id}
-                      </td>
-                      <td className="px-6 py-2.5">
-                        <div className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#3755c3]" />
-                          <span className="font-semibold text-[#2a3439] text-sm">
-                            {field.primary}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-2.5 text-xs text-[#566166]">
-                        {field.description}
+                  {items.length === 0 ? (
+                    <tr>
+                      <td colSpan={3} className="px-6 py-8 text-center text-sm text-[#566166]">
+                        No data available.
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    items.map((item, idx) => {
+                      const rowIndex = (page - 1) * pageSize + idx + 1;
+                      return (
+                        <tr
+                          key={idx}
+                          className="hover:bg-[#f0f4f7]/30 transition-colors"
+                          style={{ borderBottom: "1px solid #f0f4f7" }}
+                        >
+                          <td className="px-4 py-2.5 text-xs text-[#566166] text-center font-medium">
+                            {rowIndex}
+                          </td>
+                          <td className="px-6 py-2.5">
+                            <div className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#3755c3]" />
+                              <span className="font-semibold text-[#2a3439] text-sm">
+                                {item.primary}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-2.5 text-xs text-[#566166]">
+                            {item.description}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
@@ -117,43 +139,56 @@ export default async function DataSourcePreviewPage({
               <div className="flex items-center gap-4">
                 <span className="text-xs text-[#566166]">
                   Showing{" "}
-                  <span className="font-bold text-[#2a3439]">1–{dataSourcePreviewFields.length}</span> of 24
+                  <span className="font-bold text-[#2a3439]">
+                    {totalCount === 0
+                      ? "0"
+                      : `${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, totalCount)}`}
+                  </span>{" "}
+                  of {totalCount}
                 </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-[#566166]">Rows per page:</span>
-                  <select className="bg-transparent border-none text-xs font-bold text-[#2a3439] focus:ring-0 cursor-pointer outline-none">
-                    <option>10</option>
-                    <option>20</option>
-                    <option>50</option>
-                  </select>
-                </div>
               </div>
               <div className="flex items-center gap-1">
-                <button className="p-1 text-[#566166] hover:bg-[#e1e9ee] rounded-lg transition-colors opacity-30" disabled>
+                <Link
+                  href={buildPageUrl(1)}
+                  aria-disabled={page <= 1}
+                  className={`p-1 text-[#566166] hover:bg-[#e1e9ee] rounded-lg transition-colors ${page <= 1 ? "opacity-30 pointer-events-none" : ""}`}
+                >
                   <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>
                     first_page
                   </span>
-                </button>
-                <button className="p-1 text-[#566166] hover:bg-[#e1e9ee] rounded-lg transition-colors opacity-30" disabled>
+                </Link>
+                <Link
+                  href={buildPageUrl(page - 1)}
+                  aria-disabled={page <= 1}
+                  className={`p-1 text-[#566166] hover:bg-[#e1e9ee] rounded-lg transition-colors ${page <= 1 ? "opacity-30 pointer-events-none" : ""}`}
+                >
                   <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>
                     chevron_left
                   </span>
-                </button>
+                </Link>
                 <div className="flex items-center px-2">
-                  <span className="text-xs font-bold text-[#3755c3]">1</span>
+                  <span className="text-xs font-bold text-[#3755c3]">{page}</span>
                   <span className="text-xs text-[#566166] mx-2">of</span>
-                  <span className="text-xs font-bold text-[#2a3439]">3</span>
+                  <span className="text-xs font-bold text-[#2a3439]">{totalPages}</span>
                 </div>
-                <button className="p-1 text-[#566166] hover:bg-[#e1e9ee] rounded-lg transition-colors">
+                <Link
+                  href={buildPageUrl(page + 1)}
+                  aria-disabled={page >= totalPages}
+                  className={`p-1 text-[#566166] hover:bg-[#e1e9ee] rounded-lg transition-colors ${page >= totalPages ? "opacity-30 pointer-events-none" : ""}`}
+                >
                   <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>
                     chevron_right
                   </span>
-                </button>
-                <button className="p-1 text-[#566166] hover:bg-[#e1e9ee] rounded-lg transition-colors">
+                </Link>
+                <Link
+                  href={buildPageUrl(totalPages)}
+                  aria-disabled={page >= totalPages}
+                  className={`p-1 text-[#566166] hover:bg-[#e1e9ee] rounded-lg transition-colors ${page >= totalPages ? "opacity-30 pointer-events-none" : ""}`}
+                >
                   <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>
                     last_page
                   </span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>

@@ -3,14 +3,14 @@ namespace MIMS.Core.Entities.Common;
 public abstract class BaseEntity
 {
     public int Id { get; protected set; }
-    public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
-    public DateTime? UpdatedAt { get; protected set; }
+    public DateTime CreatedDate { get; protected set; } = DateTime.UtcNow;
+    public DateTime? UpdatedDate { get; protected set; }
     public string? CreatedBy { get; protected set; }
     public string? UpdatedBy { get; protected set; }
 
-    public void SetUpdatedAt(string? updatedBy = null)
+    public void SetUpdatedDate(string? updatedBy = null)
     {
-        UpdatedAt = DateTime.UtcNow;
+        UpdatedDate = DateTime.UtcNow;
         UpdatedBy = updatedBy;
     }
 

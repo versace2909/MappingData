@@ -28,38 +28,40 @@ public class UploadDataSourceCommandHandler(
             throw new InvalidOperationException(
                 $"Duplicate values found in the 'primary' column: {string.Join(", ", duplicates)}");
 
-        var dataSourceId = Guid.NewGuid();
-        var s3Key = $"data-sources/{dataSourceId}/{request.FileName}";
+        var tempId = Guid.NewGuid();
+        var s3Key = $"data-sources/{tempId}/{request.FileName}";
 
         request.FileStream.Seek(0, SeekOrigin.Begin);
         await fileStorageService.UploadAsync(request.FileStream, s3Key, request.ContentType, cancellationToken);
 
         var dataSource = new DataSource
         {
-            Id = dataSourceId,
             DataSourceName = request.DataSourceName,
             FileName = request.FileName,
             FileSize = request.FileSize,
             FileExtension = request.FileExtension,
-            CreatedBy = "Admin",
-            CreatedDate = DateTime.UtcNow
         };
-
-        var details = rows.Select(row => new DataSourceDetail
-        {
-            Id = Guid.NewGuid(),
-            DataSourceId = dataSourceId,
-            PrimaryColumnData = row.Primary,
-            DescriptionColumnData = row.Description,
-            NormalizeColumnData = TextNormalizer.Normalize(row.Description),
-            CreatedBy = "Admin",
-            CreatedDate = DateTime.UtcNow
-        }).ToList();
+        dataSource.SetCreatedBy("Admin");
 
         dbContext.DataSources.Add(dataSource);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        var details = rows.Select(row =>
+        {
+            var detail = new DataSourceDetail
+            {
+                DataSourceId = dataSource.Id,
+                PrimaryColumnData = row.Primary,
+                DescriptionColumnData = row.Description,
+                NormalizeColumnData = TextNormalizer.Normalize(row.Description),
+            };
+            detail.SetCreatedBy("Admin");
+            return detail;
+        }).ToList();
+
         dbContext.DataSourceDetails.AddRange(details);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return new UploadDataSourceResult(dataSourceId, dataSource.DataSourceName);
+        return new UploadDataSourceResult(dataSource.Id, dataSource.DataSourceName);
     }
 }

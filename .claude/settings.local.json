@@ -30,7 +30,18 @@
       "Bash(xargs cat:*)",
       "Bash(kill 13161)",
       "Bash(ls:*)",
-      "Bash(openspec list:*)"
+      "Bash(openspec list:*)",
+      "Bash(ps -p 12828 -o pid,command)",
+      "Bash(ps -p 13105 -o pid,command)",
+      "Bash(ps -p 14820 -o pid,command)",
+      "Bash(kill 14820)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(PGPASSWORD=mims_password psql:*)",
+      "Bash(kill 17694)",
+      "Bash(kill -0 17694)",
+      "Bash(kill 17704)",
+      "Bash(kill -0 17704)",
+      "Bash(dotnet ef database:*)"
     ]
   }
 }
