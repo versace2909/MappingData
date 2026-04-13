@@ -44,8 +44,8 @@ public class DataSourceDetailConfiguration : IEntityTypeConfiguration<DataSource
 
         builder.Property(x => x.NormalizeColumnData)
             .HasColumnName("normalize_column_data")
-            .IsRequired()
-            .HasMaxLength(2000);
+            .HasColumnType("text")
+            .IsRequired();
 
         builder.HasOne(x => x.DataSource)
             .WithMany(x => x.DataSourceDetails)

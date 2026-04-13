@@ -54,7 +54,10 @@
       "Bash(echo \"BE PID: $!\")",
       "Bash(echo \"FE PID: $!\")",
       "Bash(cp -r \"/Users/dungvv/Code/MappingData/frontend/src/app/mappings/[id]\" \"/Users/dungvv/Code/MappingData/frontend/src/app/mappings-list\")",
-      "Bash(rm -rf \"/Users/dungvv/Code/MappingData/frontend/src/app/mappings/[id]\")"
+      "Bash(rm -rf \"/Users/dungvv/Code/MappingData/frontend/src/app/mappings/[id]\")",
+      "WebFetch(domain:github.com)",
+      "Bash(pkill -f \"dotnet run --project MIMS.Api\")",
+      "Bash(echo \"PID: $!\")"
     ]
   }
 }

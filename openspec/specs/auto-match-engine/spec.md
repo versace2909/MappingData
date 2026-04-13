@@ -30,28 +30,46 @@ No additional `tsvector` column or GIN index is required.
 - **THEN** `DataSourceDetails` SHALL have an index named `ix_data_source_details_bm25` of type `bm25`
 
 ### Requirement: BM25 search query for best target match
-The system SHALL provide a method (on `AppDbContext` or a helper) that, given a `normalizedText` string and a `targetDataSourceId` int, returns the single `DataSourceDetail` from that data source with the highest BM25 score, or null if no rows are returned.
+The system SHALL provide a method (on `AppDbContext` or a helper) that, given a `normalizedText` string and a `targetDataSourceId` int, returns the single `DataSourceDetail` (together with its BM25 score) from that data source with the highest score that meets the minimum threshold, or null if no qualifying row exists.
 
-The query SHALL use the `pg_textsearch` `<@>` operator (returns negative scores; lower = better relevance):
+The query SHALL use the `pg_textsearch` `<@>` operator. Because `<@>` returns **negative** values (lower = more relevant), the BM25 score is defined as the negation of that value, obtained via `bm25_get_current_score()`:
 
-```sql
-SELECT id, data_source_id, primary_column_data, description_column_data, normalize_column_data
-FROM "DataSourceDetails"
-WHERE "DataSourceId" = @targetDataSourceId
-ORDER BY "NormalizeColumnData" <@> @searchText
-LIMIT 1
+```
+score = -bm25_get_current_score()   -- called during the BM25 index scan
 ```
 
-#### Scenario: Single best match found
-- **WHEN** the normalizedText matches one or more target rows
-- **THEN** the query SHALL return the single highest-ranked `DataSourceDetail`
+Implementation constraints discovered from pg_textsearch v1.0.0:
+- The `NormalizeColumnData` column **must be `text` type** (not `varchar`) — the left operand of `<@>` must be a bare table column with no implicit cast.
+- The right side **must use `to_bm25query(@text, 'index_name')`** when the query text is a parameterized value (not a literal); otherwise pg_textsearch cannot resolve the index.
+- The score filter (`>= 0.75`) is applied **in application code** after the query returns, not in SQL WHERE (since `bm25_get_current_score()` is only valid inside a scan context).
+- SQL column aliases must match the target DTO property names exactly (EF Core `SqlQueryRaw<T>` maps by name, not convention).
+
+```sql
+SELECT id                        AS "Id",
+       normalize_column_data     AS "NormalizeColumnData",
+       -bm25_get_current_score() AS "Score"
+FROM data_source_detail
+WHERE data_source_id = @targetDataSourceId
+ORDER BY normalize_column_data <@> to_bm25query(@searchText, 'ix_data_source_detail_bm25')
+LIMIT 2
+```
+
+The return type of the helper method SHALL be `(int DetailId, double Score)?` — null when no row qualifies after the 0.75 threshold is applied.
+
+#### Scenario: Single best match found above threshold
+- **WHEN** the normalizedText matches one or more target rows with score >= 0.75
+- **THEN** the query SHALL return the highest-scored `DataSourceDetail` together with its score
+
+#### Scenario: Match exists but score is below threshold
+- **WHEN** the best-matching row's BM25 score is below 0.75
+- **THEN** the query SHALL return null (treated as no match)
 
 #### Scenario: No match found
-- **WHEN** no target rows produce a BM25 score for the given text
+- **WHEN** no target rows produce any BM25 score for the given text
 - **THEN** the query SHALL return null
 
 ### Requirement: Word-appearance percentage tiebreaker
-When two BM25 candidate results have equal rank scores (within floating-point tolerance), the system SHALL use `CalculateWordAppearancePercentage` as a tiebreaker, selecting the candidate with the higher word-appearance percentage.
+When two BM25 candidate results have equal `score` values (within floating-point tolerance), the system SHALL use `CalculateWordAppearancePercentage` as a tiebreaker, selecting the candidate with the higher word-appearance percentage. Both candidates must still satisfy the `score >= 0.75` threshold.
 
 `CalculateWordAppearancePercentage(source, target)` is defined as:
 ```

@@ -8,8 +8,8 @@
 - Upgrade the database image to PostgreSQL 17 and enable the `pg_textsearch` extension.
 - Create `DataMappingDetail` entity and EF migration.
 - Add a `pg_textsearch` BM25 index (`USING bm25`) on `DataSourceDetail.NormalizeColumnData`.
-- Implement auto-match logic in `DataMappingCreatedEventHandler`: for each source detail row, query for the highest-ranked target row using the `<@>` operator; store one result per source row (or null if no match).
-- Use `CalculateWordAppearancePercentage` as a secondary scoring tiebreaker when the BM25 query returns multiple equal-scored candidates.
+- Implement auto-match logic in `DataMappingCreatedEventHandler`: for each source detail row, query for the highest-ranked target row using the `<@>` operator, returning the BM25 score alongside the row; only accept matches with score ≥ 0.75; store one result per source row (or null if no qualifying match).
+- Use `CalculateWordAppearancePercentage` as a secondary scoring tiebreaker when the BM25 query returns multiple equal-scored candidates (both above threshold).
 - Transition `DataMapping` status to `Completed` after the batch insert.
 
 **Non-Goals:**
@@ -31,13 +31,18 @@
 **Decision**: Use `AppDbContext.Database.SqlQueryRaw<>` for the BM25 search query.  
 **Why**: EF Core has no knowledge of the `<@>` operator or `to_bm25query`. LINQ-to-SQL would require custom `DbFunction` mappings — high boilerplate for a single use case. Raw SQL with the `<@>` operator is explicit, readable, and directly uses the index.
 
-The search query pattern:
+The search query pattern (includes score projection and threshold filter — see D7):
 ```sql
-SELECT * FROM "DataSourceDetails"
+SELECT id, data_source_id, primary_column_data, description_column_data, normalize_column_data,
+       -("NormalizeColumnData" <@> @searchText::text) AS score
+FROM "DataSourceDetails"
 WHERE "DataSourceId" = @targetDataSourceId
+  AND -("NormalizeColumnData" <@> @searchText::text) >= 0.75
 ORDER BY "NormalizeColumnData" <@> @searchText
 LIMIT 1
 ```
+
+Because `<@>` returns a **negative** distance (lower = more relevant), the BM25 score exposed to callers is its negation: `score = -(distance)`. The helper method returns both the matched row and the score so callers can persist the score and apply the word-appearance tiebreaker.
 
 ### D4: One DB round-trip per source row vs. bulk LATERAL JOIN
 **Decision**: Issue one parameterised query per source row (sequential).  
@@ -50,6 +55,10 @@ LIMIT 1
 ### D6: Final DataMapping status after auto-match
 **Decision**: Transition to `Completed` (add new enum value).  
 **Why**: `Mapping` and `Verifying`/`Verified` suggest human workflow stages. `Completed` makes it unambiguous that the automatic pass is done and the mapping is ready for user review.
+
+### D7: Minimum BM25 score threshold of 0.75
+**Decision**: A candidate row is only considered a valid match when its BM25 score (i.e. `-("NormalizeColumnData" <@> @searchText)`) is **≥ 0.75**. Source rows whose best candidate falls below this threshold are stored with `TargetDataId = null` (no match).  
+**Why**: Without a floor, low-confidence matches — where the query text shares almost no vocabulary with any target row — would be surfaced as valid auto-matches. A threshold of 0.75 filters out noise while still accepting strong topical matches. The filter is pushed into the SQL query so the index's Block-Max WAND optimization can prune non-qualifying entries early rather than post-filtering in application code.
 
 ## Risks / Trade-offs
 
@@ -75,5 +84,5 @@ LIMIT 1
 
 ## Open Questions
 
-- Should `CalculateWordAppearancePercentage` be used as the primary score instead of BM25, or only as a tiebreaker? (Current design: BM25 primary, word-appearance as tiebreaker.)
-- Do we need a minimum BM25 score threshold below which the match is treated as "no match"?, - yes, the score should be 0.75
+- Should `CalculateWordAppearancePercentage` be used as the primary score instead of BM25, or only as a tiebreaker? (Current design: BM25 primary, word-appearance as tiebreaker — resolved as tiebreaker only.)
+- ~~Do we need a minimum BM25 score threshold?~~ **Resolved (D7)**: threshold is 0.75; rows below it are stored as no-match (`TargetDataId = null`).

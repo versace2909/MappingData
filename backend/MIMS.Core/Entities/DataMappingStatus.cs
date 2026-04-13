@@ -6,5 +6,6 @@ public enum DataMappingStatus
     Processing,
     Mapping,
     Verified,
-    Verifying
+    Verifying,
+    Completed
 }
