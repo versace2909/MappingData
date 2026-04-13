@@ -37,3 +37,62 @@ export async function getDataSourceDetails(
     `/api/data-sources/${id}/details?page=${page}&pageSize=${pageSize}`
   );
 }
+
+export interface DataSourceDropdownItem {
+  id: number;
+  name: string;
+}
+
+export async function getDataSourceDropdown(): Promise<DataSourceDropdownItem[]> {
+  return apiFetch<DataSourceDropdownItem[]>("/api/data-sources/list-dropdown");
+}
+
+export interface CreateDataMappingRequest {
+  mappingName: string;
+  sourceDataId: number;
+  targetDataId: number;
+}
+
+export interface CreateDataMappingResult {
+  id: number;
+  status: string;
+}
+
+export async function createDataMapping(
+  body: CreateDataMappingRequest
+): Promise<CreateDataMappingResult> {
+  return apiFetch<CreateDataMappingResult>("/api/data-mapping", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+}
+
+export interface DataMappingListItem {
+  id: number;
+  mappingName: string;
+  createdDate: string;
+  createdBy: string | null;
+  sourceDataName: string;
+  targetDataName: string;
+  status: string;
+}
+
+export interface DataMappingPagedResult {
+  items: DataMappingListItem[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}
+
+export async function getDataMappingList(
+  page = 1,
+  pageSize = 10,
+  mappingName?: string
+): Promise<DataMappingPagedResult> {
+  const params = new URLSearchParams({
+    page: String(page),
+    pageSize: String(pageSize),
+  });
+  if (mappingName) params.set("mappingName", mappingName);
+  return apiFetch<DataMappingPagedResult>(`/api/data-mapping?${params}`);
+}

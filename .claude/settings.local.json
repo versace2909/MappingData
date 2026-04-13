@@ -41,7 +41,20 @@
       "Bash(kill -0 17694)",
       "Bash(kill 17704)",
       "Bash(kill -0 17704)",
-      "Bash(dotnet ef database:*)"
+      "Bash(dotnet ef database:*)",
+      "Bash(docker compose up:*)",
+      "Bash(docker compose ps:*)",
+      "Bash(npm install:*)",
+      "Bash(docker compose:*)",
+      "Bash(npm view:*)",
+      "Bash(python3 -c ':*)",
+      "Bash(npm ci:*)",
+      "Bash(pkill -f \"dotnet.*MIMS\")",
+      "Bash(pkill -f \"next\")",
+      "Bash(echo \"BE PID: $!\")",
+      "Bash(echo \"FE PID: $!\")",
+      "Bash(cp -r \"/Users/dungvv/Code/MappingData/frontend/src/app/mappings/[id]\" \"/Users/dungvv/Code/MappingData/frontend/src/app/mappings-list\")",
+      "Bash(rm -rf \"/Users/dungvv/Code/MappingData/frontend/src/app/mappings/[id]\")"
     ]
   }
 }

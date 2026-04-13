@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MIMS.Application.DataSources.Queries.GetDataSourceDetails;
+using MIMS.Application.DataSources.Queries.GetDataSourceDropdown;
 
 namespace MIMS.Api.Controllers;
 
@@ -18,6 +19,13 @@ public class DataSourcesController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(
             new GetDataSourceDetailsQuery(id, page, pageSize),
             cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("list-dropdown")]
+    public async Task<IActionResult> ListDropdown(CancellationToken cancellationToken = default)
+    {
+        var result = await mediator.Send(new GetDataSourceDropdownQuery(), cancellationToken);
         return Ok(result);
     }
 }
