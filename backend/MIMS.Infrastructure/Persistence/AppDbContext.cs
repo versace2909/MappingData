@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using MIMS.Application.Common.Extensions;
 using MIMS.Application.Common.Interfaces;
+using MIMS.Application.DataSources.Queries.GetDataSourceDetails;
+using MIMS.Application.DataSources.Queries.SearchDataSourceDetails;
 using MIMS.Core.Entities;
 
 namespace MIMS.Infrastructure.Persistence;
@@ -67,6 +69,56 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
         }
 
         return (qualified[0].Id, qualified[0].Score);
+    }
+
+    public async Task<(List<SearchDataSourceDetailDto> Items, int TotalCount)> SearchDataSourceDetailsAsync(
+        int dataSourceId,
+        string query,
+        int page,
+        int pageSize,
+        CancellationToken cancellationToken = default)
+    {
+        // BM25-ranked search using ParadeDB's <@> operator on the existing
+        // ix_data_source_detail_bm25 index (on normalize_column_data).
+        var offset = (page - 1) * pageSize;
+
+        // <@> returns double precision (a distance/score), not boolean —
+        // it can only appear in ORDER BY, never in WHERE.
+        // Count all rows for the data source; results are ranked by relevance, not filtered.
+        // SqlQueryRaw<int> maps the result by a column named "Value"
+        const string countSql = """
+            SELECT COUNT(*)::int AS "Value"
+            FROM data_source_detail
+            WHERE data_source_id = @dataSourceId
+            """;
+
+        const string itemsSql = """
+            SELECT primary_column_data       AS "Primary",
+                   description_column_data   AS "Description",
+                   normalize_column_data     AS "Normalized",
+                   -bm25_get_current_score() AS "Score"
+            FROM data_source_detail
+            WHERE data_source_id = @dataSourceId
+            ORDER BY normalize_column_data <@> to_bm25query(@query, 'ix_data_source_detail_bm25')
+            LIMIT @pageSize OFFSET @offset
+            """;
+
+        var totalCount = await Database
+            .SqlQueryRaw<int>(
+                countSql,
+                new NpgsqlParameter("dataSourceId", dataSourceId))
+            .FirstAsync(cancellationToken);
+
+        var items = await Database
+            .SqlQueryRaw<SearchDataSourceDetailDto>(
+                itemsSql,
+                new NpgsqlParameter("dataSourceId", dataSourceId),
+                new NpgsqlParameter("query", query),
+                new NpgsqlParameter("pageSize", pageSize),
+                new NpgsqlParameter("offset", offset))
+            .ToListAsync(cancellationToken);
+
+        return (items, totalCount);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

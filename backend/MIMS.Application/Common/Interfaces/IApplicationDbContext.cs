@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using MIMS.Application.DataSources.Queries.GetDataSourceDetails;
+using MIMS.Application.DataSources.Queries.SearchDataSourceDetails;
 using MIMS.Core.Entities;
 
 namespace MIMS.Application.Common.Interfaces;
@@ -11,4 +13,10 @@ public interface IApplicationDbContext
     DbSet<DataMappingDetail> DataMappingDetails { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task<(int DetailId, double Score)?> SearchBestTargetAsync(string normalizedText, int targetDataSourceId, CancellationToken cancellationToken = default);
+    Task<(List<SearchDataSourceDetailDto> Items, int TotalCount)> SearchDataSourceDetailsAsync(
+        int dataSourceId,
+        string query,
+        int page,
+        int pageSize,
+        CancellationToken cancellationToken = default);
 }

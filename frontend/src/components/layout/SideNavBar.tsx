@@ -71,6 +71,18 @@ export default function SideNavBar() {
           <span className="material-symbols-outlined text-[20px]">list</span>
           <span className="text-sm">Mapping List</span>
         </Link>
+
+        <Link
+          href="/data-source-search"
+          className={
+            isActive("/data-source-search")
+              ? "flex items-center gap-3 px-3 py-2 text-[#3755c3] font-bold bg-[#dde1ff] rounded-xl translate-x-1 duration-200"
+              : "flex items-center gap-3 px-3 py-2 text-[#566166] hover:bg-white/50 rounded-xl transition-all"
+          }
+        >
+          <span className="material-symbols-outlined text-[20px]">manage_search</span>
+          <span className="text-sm">Data Search</span>
+        </Link>
       </nav>
 
       {/* Bottom Nav */}

@@ -115,6 +115,33 @@ export async function getDataMappingDetails(
   return apiFetch<DataMappingDetailPagedResult>(`/api/data-mapping/${id}/details?${params}`);
 }
 
+export interface SearchDataSourceDetailItem {
+  primary: string;
+  description: string;
+  normalized: string;
+  score: number;
+}
+
+export interface SearchDataSourceDetailsPagedResult {
+  items: SearchDataSourceDetailItem[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}
+
+export async function searchDataSourceDetails(
+  id: number,
+  query?: string,
+  page = 1,
+  pageSize = 20
+): Promise<SearchDataSourceDetailsPagedResult> {
+  const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
+  if (query) params.set("query", query);
+  return apiFetch<SearchDataSourceDetailsPagedResult>(
+    `/api/data-sources/${id}/details/search?${params}`
+  );
+}
+
 export async function getDataMappingList(
   page = 1,
   pageSize = 10,
