@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MIMS.Application.Common.Interfaces;
 using MIMS.Core.Entities;
+using MIMS.Core.Events;
 
 namespace MIMS.Application.DataMappings.Commands.CreateDataMapping;
 
@@ -31,6 +32,11 @@ public class CreateDataMappingCommandHandler(IApplicationDbContext dbContext)
         };
 
         dbContext.DataMappings.Add(mapping);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        // Add event after first save so mapping.Id (auto-increment) is set.
+        // The interceptor will pick this up on the second SaveChangesAsync and write the Outbox row.
+        mapping.AddDomainEvent(new DataMappingCreatedEventModel(mapping.Id));
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return new CreateDataMappingResult(mapping.Id, mapping.Status.ToString());

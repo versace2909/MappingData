@@ -47,6 +47,8 @@ public class DataMappingConfiguration : IEntityTypeConfiguration<DataMapping>
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Ignore(x => x.DomainEvents);
+
         builder.HasOne(x => x.SourceData)
             .WithMany()
             .HasForeignKey(x => x.SourceDataId)

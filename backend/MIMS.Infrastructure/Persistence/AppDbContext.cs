@@ -10,6 +10,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<DataSource> DataSources => Set<DataSource>();
     public DbSet<DataSourceDetail> DataSourceDetails => Set<DataSourceDetail>();
     public DbSet<DataMapping> DataMappings => Set<DataMapping>();
+    public DbSet<Outbox> Outboxes => Set<Outbox>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

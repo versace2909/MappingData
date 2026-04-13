@@ -144,7 +144,7 @@ The development environment SHALL include a LocalStack service that simulates AW
 ---
 
 ### Requirement: Frontend drag-and-drop upload
-The upload screen SHALL support dragging a file from the filesystem and dropping it onto the upload zone.
+The upload screen SHALL support dragging a file from the filesystem and dropping it onto the upload zone. The upload page SHALL be rendered in a two-column layout: the left column SHALL contain the data source name input and the drag-and-drop upload zone, and the right column SHALL contain supplementary information or instructions (e.g. template download, format guidance). The two columns SHALL be displayed side by side on desktop viewports.
 
 #### Scenario: User drops a valid file
 - **WHEN** user drags a `.xlsx`, `.xls`, or `.csv` file and drops it onto the upload zone
@@ -153,6 +153,10 @@ The upload screen SHALL support dragging a file from the filesystem and dropping
 #### Scenario: User clicks to browse
 - **WHEN** user clicks anywhere in the upload zone
 - **THEN** the system file dialog SHALL open, filtered to `.xlsx`, `.xls`, `.csv` files
+
+#### Scenario: Page renders in two-column layout
+- **WHEN** a user navigates to the upload page on a desktop viewport
+- **THEN** the page SHALL render with the form controls (name input and upload zone) in the left column and supplementary content in the right column, displayed side by side
 
 ---
 
