@@ -109,27 +109,27 @@ export default function DataMappingListClient() {
         </div>
 
         {/* Table */}
-        <div className="bg-white rounded-xl overflow-hidden shadow-sm" style={{ border: "1px solid #e1e9ee" }}>
+        <div className="bg-white rounded-xl overflow-hidden" style={{ boxShadow: "0 32px 64px -15px rgba(42,52,57,0.06)" }}>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-[#f0f4f7]/50" style={{ borderBottom: "1px solid #e1e9ee" }}>
-                  <th className="px-6 py-3 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
+                  <th className="px-6 py-4 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
                     Mapping Name
                   </th>
-                  <th className="px-6 py-3 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
+                  <th className="px-6 py-4 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
                     Source Data
                   </th>
-                  <th className="px-6 py-3 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
+                  <th className="px-6 py-4 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
                     Target Data
                   </th>
-                  <th className="px-6 py-3 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
+                  <th className="px-6 py-4 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
                     Created Date
                   </th>
-                  <th className="px-6 py-3 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
+                  <th className="px-6 py-4 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
                     Created By
                   </th>
-                  <th className="px-6 py-3 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
+                  <th className="px-6 py-4 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
                     Status
                   </th>
                 </tr>

@@ -176,7 +176,8 @@ export default function UploadDashboardPage() {
             </p>
           </div>
 
-          <div className="space-y-6">
+          <div className="flex gap-8 items-start">
+            <div className="w-2/5 min-w-0 flex flex-col gap-4">
             <form onSubmit={handleSubmit}>
               {/* Data Source Name */}
               <div className="mb-4">
@@ -296,7 +297,9 @@ export default function UploadDashboardPage() {
                 </a>
               </div>
             </form>
+            </div>
 
+            <div className="flex-1 min-w-0 flex flex-col gap-4">
             {/* Success / Error feedback */}
             {successMessage && (
               <div className="flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
@@ -423,6 +426,7 @@ export default function UploadDashboardPage() {
                   </table>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
