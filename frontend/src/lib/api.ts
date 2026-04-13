@@ -84,6 +84,36 @@ export interface DataMappingPagedResult {
   pageSize: number;
 }
 
+export interface DataMappingDetailItem {
+  id: number;
+  sourceCode: string;
+  sourceDescription: string;
+  targetCode: string | null;
+  targetDescription: string | null;
+  mappingType: string;
+  isVerified: boolean;
+  score: number | null;
+}
+
+export interface DataMappingDetailPagedResult {
+  items: DataMappingDetailItem[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}
+
+export async function getDataMappingDetails(
+  id: number,
+  page = 1,
+  pageSize = 20
+): Promise<DataMappingDetailPagedResult> {
+  const params = new URLSearchParams({
+    page: String(page),
+    pageSize: String(pageSize),
+  });
+  return apiFetch<DataMappingDetailPagedResult>(`/api/data-mapping/${id}/details?${params}`);
+}
+
 export async function getDataMappingList(
   page = 1,
   pageSize = 10,

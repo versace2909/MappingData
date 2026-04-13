@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MIMS.Application.DataMappings.Commands.CreateDataMapping;
+using MIMS.Application.DataMappings.Queries.GetDataMappingDetails;
 using MIMS.Application.DataMappings.Queries.GetDataMappingList;
 
 namespace MIMS.Api.Controllers;
@@ -19,6 +20,23 @@ public class DataMappingController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(
             new GetDataMappingListQuery(page, pageSize, mappingName),
             cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("{id}/details")]
+    public async Task<IActionResult> GetDetails(
+        int id,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await mediator.Send(
+            new GetDataMappingDetailsQuery(id, page, pageSize),
+            cancellationToken);
+
+        if (result is null)
+            return NotFound();
+
         return Ok(result);
     }
 

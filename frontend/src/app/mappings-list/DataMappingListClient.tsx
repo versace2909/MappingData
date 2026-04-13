@@ -6,7 +6,6 @@ import { getDataMappingList, DataMappingListItem } from "@/lib/api";
 
 const PAGE_SIZE = 10;
 
-const NAVIGABLE_STATUSES = new Set(["Verifying", "Verified"]);
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
@@ -158,21 +157,12 @@ export default function DataMappingListClient() {
                       style={{ borderBottom: "1px solid #f0f4f7" }}
                     >
                       <td className="px-6 py-3 text-sm font-semibold text-[#2a3439]">
-                        {NAVIGABLE_STATUSES.has(item.status) ? (
-                          <Link
-                            href={`/mappings-list/${item.id}`}
-                            className="text-[#3755c3] hover:underline"
-                          >
-                            {item.mappingName}
-                          </Link>
-                        ) : (
-                          <span
-                            title={`Detail view is available when status is Verifying or Verified (current: ${item.status})`}
-                            className="cursor-default"
-                          >
-                            {item.mappingName}
-                          </span>
-                        )}
+                        <Link
+                          href={`/mappings-list/${item.id}`}
+                          className="text-[#3755c3] hover:underline"
+                        >
+                          {item.mappingName}
+                        </Link>
                       </td>
                       <td className="px-6 py-3 text-sm text-[#566166]">{item.sourceDataName}</td>
                       <td className="px-6 py-3 text-sm text-[#566166]">{item.targetDataName}</td>
