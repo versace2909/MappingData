@@ -19,6 +19,7 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
 export interface DataSourceDetailItem {
   primary: string;
   description: string;
+  normalized: string;
 }
 
 export interface DataSourceDetailsPagedResult {

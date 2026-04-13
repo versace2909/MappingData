@@ -1,3 +1,5 @@
+## MODIFIED Requirements
+
 ### Requirement: Fetch paginated data source details by ID
 The system SHALL provide an API endpoint `GET /api/data-sources/{id}/details` that returns paginated records from the `DataSourceDetail` table for the given `dataSourceId`. Each record SHALL include `primary` (mapped from `PrimaryColumnData`), `description` (mapped from `DescriptionColumnData`), and `normalized` (mapped from `NormalizeColumnData`). The default page size SHALL be 10 items per page.
 

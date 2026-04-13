@@ -25,7 +25,8 @@ public class GetDataSourceDetailsQueryHandler(IApplicationDbContext dbContext)
             .Take(pageSize)
             .Select(d => new DataSourceDetailDto(
                 d.PrimaryColumnData,
-                d.DescriptionColumnData))
+                d.DescriptionColumnData,
+                d.NormalizeColumnData))
             .ToListAsync(cancellationToken);
 
         return new DataSourceDetailsPagedResult(items, totalCount, page, pageSize);

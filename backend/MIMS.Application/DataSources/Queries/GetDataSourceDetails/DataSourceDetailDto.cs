@@ -2,7 +2,8 @@ namespace MIMS.Application.DataSources.Queries.GetDataSourceDetails;
 
 public record DataSourceDetailDto(
     string Primary,
-    string Description);
+    string Description,
+    string Normalized);
 
 public record DataSourceDetailsPagedResult(
     List<DataSourceDetailDto> Items,

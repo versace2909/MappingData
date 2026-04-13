@@ -88,12 +88,15 @@ export default async function DataSourcePreviewPage({
                     <th className="px-6 py-3 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
                       Description
                     </th>
+                    <th className="px-6 py-3 text-[10px] font-bold text-[#566166] uppercase tracking-widest font-headline">
+                      Normalized
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {items.length === 0 ? (
                     <tr>
-                      <td colSpan={3} className="px-6 py-8 text-center text-sm text-[#566166]">
+                      <td colSpan={4} className="px-6 py-8 text-center text-sm text-[#566166]">
                         No data available.
                       </td>
                     </tr>
@@ -119,6 +122,9 @@ export default async function DataSourcePreviewPage({
                           </td>
                           <td className="px-6 py-2.5 text-xs text-[#566166]">
                             {item.description}
+                          </td>
+                          <td className="px-6 py-2.5 text-xs text-[#566166] italic">
+                            {item.normalized}
                           </td>
                         </tr>
                       );

@@ -57,12 +57,8 @@ The `/mappings-list` page SHALL fetch data from `GET /api/data-mapping` and rend
 - **THEN** the grid SHALL fetch the corresponding page from the API
 
 ### Requirement: Navigable status gate on list rows
-Mapping Name cells SHALL be clickable links (to `/mappings-list/{id}`) only when `status` is `Verifying` or `Verified`. All other statuses SHALL render as plain text with a tooltip explaining the detail view is not yet available.
+Mapping Name cells SHALL always be clickable links to `/mappings-list/{id}`, regardless of status. The status-based gate and tooltip on non-navigable statuses are removed.
 
-#### Scenario: Status is Verifying or Verified
-- **WHEN** a mapping row has `status = Verifying` or `status = Verified`
-- **THEN** the Mapping Name cell SHALL render as a link to `/mappings-list/{id}`
-
-#### Scenario: Status is New, Processing, or other
-- **WHEN** a mapping row has any status other than `Verifying` or `Verified`
-- **THEN** the Mapping Name cell SHALL render as plain text (not a link)
+#### Scenario: Status is any value
+- **WHEN** a mapping row has any status (New, Processing, Mapping, Verifying, Verified, or other)
+- **THEN** the Mapping Name cell SHALL render as a `<Link>` to `/mappings-list/{id}`

@@ -136,7 +136,7 @@ export default function MappingConfigurationClient() {
         sourceDataId: source.id,
         targetDataId: target.id,
       });
-      router.push(`/mappings/${result.id}`);
+      router.push('/mappings-list');
     } catch {
       setError("Failed to create mapping. Please try again.");
       setSubmitting(false);

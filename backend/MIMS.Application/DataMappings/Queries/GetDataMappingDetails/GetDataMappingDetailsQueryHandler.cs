@@ -33,9 +33,9 @@ public class GetDataMappingDetailsQueryHandler(IApplicationDbContext dbContext)
             .Select(d => new DataMappingDetailItemDto(
                 d.Id,
                 d.SourceData.PrimaryColumnData,
-                d.SourceData.DescriptionColumnData,
+                d.SourceData.NormalizeColumnData,
                 d.TargetData != null ? d.TargetData.PrimaryColumnData : null,
-                d.TargetData != null ? d.TargetData.DescriptionColumnData : null,
+                d.TargetData != null ? d.TargetData.NormalizeColumnData : null,
                 d.MappingType.ToString(),
                 d.IsVerified,
                 d.Score))

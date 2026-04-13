@@ -57,7 +57,10 @@
       "Bash(rm -rf \"/Users/dungvv/Code/MappingData/frontend/src/app/mappings/[id]\")",
       "WebFetch(domain:github.com)",
       "Bash(pkill -f \"dotnet run --project MIMS.Api\")",
-      "Bash(echo \"PID: $!\")"
+      "Bash(echo \"PID: $!\")",
+      "Bash(find frontend/src -name \"page.tsx\" -path \"*/data-sources/*\" -exec cat {} \\\\;)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d['outputPath']\\)\")"
     ]
   }
 }

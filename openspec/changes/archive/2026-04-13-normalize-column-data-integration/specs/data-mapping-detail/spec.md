@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: DataMappingDetail entity
 The system SHALL define a `DataMappingDetail` entity in `MIMS.Core` with:
@@ -16,41 +16,6 @@ The system SHALL define a `DataMappingDetail` entity in `MIMS.Core` with:
 #### Scenario: Entity created with no match
 - **WHEN** the auto-match engine finds no target match for a source row
 - **THEN** a `DataMappingDetail` record SHALL be created with `SourceDataId` set, `TargetDataId = null`, `MappingType = Auto`, and `IsVerified = false`
-
-### Requirement: DataMappingDetail EF configuration
-The system SHALL configure `DataMappingDetail` in EF Core:
-- Table name `DataMappingDetails`
-- `Id` as auto-increment primary key
-- `DataMappingId` as a non-nullable FK with cascade delete
-- `SourceDataId` as non-nullable FK (no cascade, restrict)
-- `TargetDataId` as nullable FK (no cascade, restrict)
-- `MappingType` stored as int column
-- `IsVerified` as non-nullable bool
-
-#### Scenario: EF migration applies cleanly
-- **WHEN** `dotnet ef database update` is run against a fresh database
-- **THEN** the `DataMappingDetails` table SHALL exist with all columns and FK constraints
-
-### Requirement: DataMappingDetails DbSet exposed on IApplicationDbContext
-`IApplicationDbContext` SHALL expose `DbSet<DataMappingDetail> DataMappingDetails` so application handlers can query and insert records.
-
-#### Scenario: Handler inserts DataMappingDetail via interface
-- **WHEN** `DataMappingCreatedEventHandler` calls `dbContext.DataMappingDetails.AddRange(...)` and `SaveChangesAsync`
-- **THEN** all records SHALL be persisted in the `DataMappingDetails` table
-
-### Requirement: MappingType enum
-The system SHALL define a `MappingType` enum in `MIMS.Core` with values `Auto = 0` and `Manual = 1`.
-
-#### Scenario: Default mapping type for auto-match
-- **WHEN** a `DataMappingDetail` is created by the event handler
-- **THEN** `MappingType` SHALL equal `Auto`
-
-### Requirement: DataMappingStatus.Completed enum value
-The `DataMappingStatus` enum SHALL include a `Completed` value indicating the auto-match pass has finished and the mapping is ready for user review.
-
-#### Scenario: DataMapping reaches Completed status
-- **WHEN** all `DataMappingDetail` rows have been inserted
-- **THEN** the parent `DataMapping.Status` SHALL be updated to `Completed`
 
 ### Requirement: DataMappingDetail API response uses NormalizeColumnData for descriptions
 The `GET /api/data-mappings/{id}/details` endpoint SHALL return `SourceDescription` sourced from `SourceData.NormalizeColumnData` and `TargetDescription` sourced from `TargetData.NormalizeColumnData` (null when no target match exists). The field names in the JSON response (`sourceDescription`, `targetDescription`) SHALL remain unchanged.
